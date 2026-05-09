@@ -1,0 +1,25 @@
+{"task_id": "T001", "type": "text_analysis", "task": "分析2024年中国新能源汽车市场的发展趋势，包括市场规模、主要玩家、增长驱动因素，并预测2025年走势。输出一份结构化分析报告，包含具体数据和引用来源。"}
+{"task_id": "T002", "type": "text_analysis", "task": "撰写一份关于大语言模型在企业知识管理中应用的调研报告，覆盖主流方案对比、实施挑战、ROI分析，并给出落地建议。要求有具体案例支撑，字数不少于1000字。"}
+{"task_id": "T003", "type": "text_analysis", "task": "分析2025年全球供应链风险格局：重点覆盖中美贸易摩擦、关键原材料短缺（稀土、芯片）、地缘政治影响三个维度，输出可供企业决策的风险地图和应对策略。"}
+{"task_id": "T004", "type": "text_analysis", "task": "为一家正在考虑出海东南亚的中国餐饮品牌写一份市场进入分析，重点评估泰国、越南、印尼三个市场的消费者偏好差异、竞争格局、监管环境和建议的进入策略。"}
+{"task_id": "T005", "type": "text_analysis", "task": "研究「碳中和目标对中国钢铁行业的结构性影响」，分析双碳政策下的行业整合趋势、技术路径（氢冶金、电炉转型）以及领先企业的战略应对，包含定量数据支持。"}
+{"task_id": "T006", "type": "code_generation", "task": "用Python编写一个数据清洗脚本，输入：一个包含用户行为日志的CSV文件（字段：user_id, event_type, timestamp, page_url），输出：去重后的用户会话数据，每个会话定义为30分钟内的连续事件序列。要求：代码可直接运行，包含注释，处理异常情况。"}
+{"task_id": "T007", "type": "code_generation", "task": "实现一个Python异步爬虫，爬取电商网站的商品价格数据，支持：并发控制（最多10个并发）、失败重试（最多3次）、结果去重、输出为CSV。使用aiohttp，代码可直接运行。"}
+{"task_id": "T008", "type": "code_generation", "task": "写一个FastAPI服务，提供以下接口：POST /api/summarize（接收文本，调用OpenAI API返回摘要）、GET /api/history（返回最近10条摘要记录，SQLite存储）。包含错误处理和API Key认证。"}
+{"task_id": "T009", "type": "code_generation", "task": "实现一个Redis分布式锁的Python类，要求：使用SET NX EX实现、支持可重入、提供context manager接口、锁超时自动释放、发生异常时自动解锁。需要包含单元测试。"}
+{"task_id": "T010", "type": "code_generation", "task": "用Python实现一个简单的向量数据库，支持：文本embedding存储（使用sentence-transformers）、余弦相似度检索（top-k）、CRUD操作、持久化到JSON文件。写出完整可运行代码。"}
+{"task_id": "T011", "type": "ppt_generation", "task": "为一个B2B SaaS公司的投资者路演制作PPT大纲，公司是AI驱动的企业合规管理平台，目标客户是500人以上企业。需包含：公司介绍、市场机会、产品展示、商业模式、财务数据、团队、融资计划，共10-12页，每页有具体要点。"}
+{"task_id": "T012", "type": "ppt_generation", "task": "为一次「AI在医疗诊断中的应用」学术报告设计PPT大纲，受众是医学院学生，时长45分钟。需包含：背景与挑战、技术原理、典型案例（影像诊断/病历分析）、伦理问题、未来展望，每节有演讲要点和互动设计。"}
+{"task_id": "T013", "type": "ppt_generation", "task": "制作一份「2025年度战略规划」PPT大纲，用于公司内部管理层汇报（20人）。覆盖：2024年回顾（成绩与问题）、市场环境分析、2025年战略重点（3个）、资源分配计划、里程碑与考核指标，15-18页。"}
+{"task_id": "T014", "type": "ppt_generation", "task": "为一门「Python数据分析入门」在线课程设计第一课（「Pandas基础」）的PPT大纲，包含：课程目标、核心概念、代码示例、课堂练习、常见错误，适合零基础学员，30-40分钟讲解。"}
+{"task_id": "T015", "type": "ppt_generation", "task": "设计一份产品发布会PPT大纲，发布一款AI写作助手产品，面向企业营销团队。包含：问题引入（营销内容生产痛点）、产品展示（核心功能3个）、客户证言、定价方案、行动召唤，共8-10页。"}
+{"task_id": "T016", "type": "data_analysis", "task": "分析以下销售数据并给出业务建议：Q1总销售额520万元（同比+12%），但客单价下降15%，订单量增加32%。华东区贡献60%销售额但利润率最低（8%），华南区销售额仅20%但利润率最高（23%）。请找出核心问题并给出3条可执行建议。"}
+{"task_id": "T017", "type": "data_analysis", "task": "以下是一个SaaS产品的用户数据：MAU 8.2万，DAU/MAU比率=0.18，注册转化率11%，30天留存率28%，NPS=34，平均付费时长18个月，月流失率5.2%。请进行诊断分析，指出最关键的3个问题并给出优先级排序和改进方案。"}
+{"task_id": "T018", "type": "data_analysis", "task": "某电商平台的A/B测试结果：实验组（新推荐算法）CTR=4.2%（对照组3.8%），GMV/UV=$12.4（对照组$11.9），样本量各20万，实验周期14天。请做统计显著性检验，判断是否应该全量上线，并分析潜在风险。"}
+{"task_id": "T019", "type": "data_analysis", "task": "用Python分析以下场景：你有一个包含10万条记录的用户行为数据集（字段：user_id, session_id, event, timestamp, revenue），请写出完整分析代码，包括：数据质量检查、用户分层（RFM模型）、关键指标计算（ARPU、留存率、LTV估算）、可视化。"}
+{"task_id": "T020", "type": "data_analysis", "task": "某制造企业Q1生产数据：产能利用率72%（行业平均85%），次品率3.2%（目标<2%），员工人均产出下降8%，主要产线停机时间增加40%，但交货准时率维持在95%。请诊断核心问题、排列优先级，给出3-6个月可落地的改进方案。"}
+{"task_id": "T021", "type": "rag_qa", "task": "根据以下背景信息回答问题。背景：《个人信息保护法》规定收集敏感个人信息（含健康数据）须单独同意。问题：一家医疗App如果想收集用户健康数据用于个性化推荐，需要满足哪些合规要求？请列举至少3条具体要求并引用对应法条。"}
+{"task_id": "T022", "type": "rag_qa", "task": "背景：Redis是一个开源内存数据库，支持String、List、Hash、Set、Sorted Set五种数据结构。Redis的持久化方案包括RDB（快照）和AOF（日志追加）。问题：如果要用Redis实现一个排行榜功能（每小时更新一次全网用户积分排名），应该选择哪种数据结构，如何设计key和更新策略？给出完整方案。"}
+{"task_id": "T023", "type": "rag_qa", "task": "背景：JWT（JSON Web Token）由Header.Payload.Signature三部分组成，使用Base64编码。Payload中可包含exp（过期时间）、sub（主题）、iat（签发时间）等标准Claims。问题：如何在不使用数据库的情况下实现JWT的token撤销（logout）功能？给出两种方案及其优缺点对比。"}
+{"task_id": "T024", "type": "rag_qa", "task": "背景：Kubernetes（K8s）中的Pod是最小调度单元，Deployment管理Pod的副本数和滚动更新，Service提供稳定的网络访问，Ingress处理外部HTTP流量路由。问题：一个有状态的MySQL数据库服务应该用Deployment还是StatefulSet部署？两者有何本质区别？需要配合哪些其他K8s资源？"}
+{"task_id": "T025", "type": "rag_qa", "task": "背景：LangChain是一个构建LLM应用的框架，核心组件包括Chain（链式调用）、Agent（自主决策）、Memory（对话记忆）、Tool（工具集成）。问题：要构建一个能够搜索互联网并基于搜索结果回答问题的Agent，应该选择哪些LangChain组件？给出完整的架构设计和关键代码片段。"}

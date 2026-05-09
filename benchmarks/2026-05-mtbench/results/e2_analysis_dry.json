@@ -1,0 +1,29 @@
+{
+  "accuracy": 0.6470588235294118,
+  "n_total": 20,
+  "n_decisive": 17,
+  "n_correct": 11,
+  "cat_stats": {
+    "reasoning": {
+      "n": 0,
+      "correct": 0,
+      "accuracy": null
+    },
+    "writing": {
+      "n": 17,
+      "correct": 11,
+      "accuracy": 0.6470588235294118
+    },
+    "stem": {
+      "n": 0,
+      "correct": 0,
+      "accuracy": null
+    },
+    "roleplay": {
+      "n": 0,
+      "correct": 0,
+      "accuracy": null
+    }
+  },
+  "go": false
+}

@@ -1,0 +1,17 @@
+{
+  "total_flask_records": 1700,
+  "after_filter": 1357,
+  "filter_rate": "79.8%",
+  "sampled": 279,
+  "tier_counts": {
+    "high": 100,
+    "low": 79,
+    "mid": 100
+  },
+  "avg_flask_per_tier": {
+    "high": 4.636666666666668,
+    "low": 1.462025316455696,
+    "mid": 3.1683333333333343
+  },
+  "random_seed": 42
+}

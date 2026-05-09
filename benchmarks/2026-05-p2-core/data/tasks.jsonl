@@ -1,0 +1,200 @@
+{"task_id": "T0001", "type": "ppt_generation", "task": "制作投资者日PPT大纲：回顾+展望，面向董事会，时长45分钟，风格简洁。"}
+{"task_id": "T0002", "type": "rag_qa", "task": "基于文档内容：LangChain框架包含Chain/Agent/Memory/Tool四大核心组件，解释内部机制的工作原理，并给出在分布式环境场景下的实现方案。"}
+{"task_id": "T0003", "type": "word_document", "task": "编写B2B平台产品需求文档（PRD），包含：功能描述、用户故事、验收标准、优先级，格式规范。"}
+{"task_id": "T0004", "type": "multi_step", "task": "执行文件处理工作流：先评估现有方案，然后规划实施步骤，最后完成文档交付，每步输出要明确。"}
+{"task_id": "T0005", "type": "text_analysis", "task": "研究绿色供应链政策对SaaS软件行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0006", "type": "excel_data", "task": "创建RFM分析模板：数据清洗规则、计算逻辑、输出格式，包含示例数据和使用说明。"}
+{"task_id": "T0007", "type": "code_generation", "task": "实现一个并查集数据结构，支持插入/删除和迭代/序列化操作，线程安全，包含性能测试。"}
+{"task_id": "T0008", "type": "code_generation", "task": "用FastAPI框架构建RESTful API，支持：分页查询、限流、指标上报，包含认证、错误处理、API文档。"}
+{"task_id": "T0009", "type": "excel_data", "task": "设计研究项目管理看板：任务分解、时间线、资源分配、进度追踪，含甘特图和里程碑。"}
+{"task_id": "T0010", "type": "excel_data", "task": "设计营销活动项目管理看板：任务分解、时间线、资源分配、进度追踪，含甘特图和里程碑。"}
+{"task_id": "T0011", "type": "ppt_generation", "task": "为AI创业公司的员工制作产品定位PPT大纲，共8页，每页有标题+3-5个要点，包含数据和案例。"}
+{"task_id": "T0012", "type": "rag_qa", "task": "根据以下背景：JWT由Header.Payload.Signature三部分组成，Payload含exp/sub/iat等标准Claims，回答：应该选择哪种方案？要求：引用具体条款、给出操作建议、列举至少3条要求。"}
+{"task_id": "T0013", "type": "rag_qa", "task": "基于文档内容：React的Fiber架构将渲染工作分解为可中断的小单元，解释核心原理的工作原理，并给出在生产环境场景下的实现方案。"}
+{"task_id": "T0014", "type": "code_generation", "task": "用Django REST框架构建GraphQL API，支持：分页查询、限流、指标上报，包含认证、错误处理、API文档。"}
+{"task_id": "T0015", "type": "code_generation", "task": "用Python实现LRU缓存算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n))。"}
+{"task_id": "T0016", "type": "ppt_generation", "task": "为AI写作助手产品发布会制作PPT大纲：问题引入→解决方案→产品展示→客户证言→价格行动，共15页。"}
+{"task_id": "T0017", "type": "rag_qa", "task": "根据以下规范：OAuth 2.0授权框架规定了四种授权模式，判断生产环境是否合规，列举需要满足的3个具体条件。"}
+{"task_id": "T0018", "type": "ppt_generation", "task": "为电商平台的客户制作降本增效PPT大纲，共10页，每页有标题+3-5个要点，包含数据和案例。"}
+{"task_id": "T0019", "type": "ppt_generation", "task": "制作战略规划PPT大纲：战略+执行，面向董事会，时长60分钟，风格正式。"}
+{"task_id": "T0020", "type": "text_analysis", "task": "为B2B SaaS公司撰写降本增效的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0021", "type": "text_analysis", "task": "分析2025年人工智能行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0022", "type": "code_generation", "task": "实现一个LRU缓存数据结构，支持插入/删除和迭代/序列化操作，线程安全，包含性能测试。"}
+{"task_id": "T0023", "type": "text_analysis", "task": "撰写数字化转型领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0024", "type": "code_generation", "task": "用Python实现异常检测：数据预处理、特征工程、模型训练（快速排序）、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0025", "type": "word_document", "task": "为技术授权合作撰写合作协议框架，包含：合作范围、权责划分、收益分配、保密条款、争议解决。"}
+{"task_id": "T0026", "type": "excel_data", "task": "设计研究项目管理看板：任务分解、时间线、资源分配、进度追踪，含甘特图和里程碑。"}
+{"task_id": "T0027", "type": "multi_step", "task": "完成以下多步任务：1）市场调研和竞品分析；2）基于步骤1的结果，设计技术架构；3）整合上述结果，提供落地建议，输出完整方案。"}
+{"task_id": "T0028", "type": "word_document", "task": "为采购审批流程编写SOP文档，包含：流程概述、步骤详述、异常处理、质量检查点，格式规范。"}
+{"task_id": "T0029", "type": "word_document", "task": "为客户onboarding流程编写SOP文档，包含：流程概述、步骤详述、异常处理、质量检查点，格式规范。"}
+{"task_id": "T0030", "type": "text_analysis", "task": "为教育科技公司撰写降本增效的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0031", "type": "ppt_generation", "task": "设计技术部门年度工作汇报PPT大纲，包含用户增长、技术债务回顾和下期计划，面向合作伙伴。"}
+{"task_id": "T0032", "type": "text_analysis", "task": "分析东南亚市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0033", "type": "ppt_generation", "task": "设计产品部门年度工作汇报PPT大纲，包含产品迭代、团队效率回顾和下期计划，面向员工。"}
+{"task_id": "T0034", "type": "code_generation", "task": "用Python实现时序预测：数据预处理、特征工程、模型训练（动态规划背包）、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0035", "type": "rag_qa", "task": "根据以下背景：Kubernetes中Pod是最小调度单元，Deployment管理副本，Service提供稳定网络访问，回答：应该选择哪种方案？要求：引用具体条款、给出操作建议、列举至少5条要求。"}
+{"task_id": "T0036", "type": "word_document", "task": "编写B2B平台产品需求文档（PRD），包含：功能描述、用户故事、验收标准、优先级，格式规范。"}
+{"task_id": "T0037", "type": "text_analysis", "task": "撰写产品定位领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0038", "type": "excel_data", "task": "构建零售的财务预测模型：收入预测、成本结构、现金流分析，包含敏感性分析和3种情景。"}
+{"task_id": "T0039", "type": "excel_data", "task": "设计技术KPI追踪仪表盘：指标定义、计算公式、可视化图表、环比/同比对比，数据可直接填入。"}
+{"task_id": "T0040", "type": "text_analysis", "task": "分析2026年消费品行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0041", "type": "excel_data", "task": "设计销售KPI追踪仪表盘：指标定义、计算公式、可视化图表、环比/同比对比，数据可直接填入。"}
+{"task_id": "T0042", "type": "ppt_generation", "task": "设计机器学习课程第1课「数字化转型」的PPT大纲，适合零基础学员，90分钟，含互动设计。"}
+{"task_id": "T0043", "type": "text_analysis", "task": "撰写用户增长领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0044", "type": "text_analysis", "task": "撰写市场进入策略领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0045", "type": "code_generation", "task": "用Python实现动态规划背包算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n log n))。"}
+{"task_id": "T0046", "type": "text_analysis", "task": "撰写降本增效领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0047", "type": "text_analysis", "task": "研究个人信息保护政策对跨境电商行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0048", "type": "excel_data", "task": "构建教育科技的财务预测模型：收入预测、成本结构、现金流分析，包含敏感性分析和3种情景。"}
+{"task_id": "T0049", "type": "ppt_generation", "task": "设计机器学习课程第5课「数字化转型」的PPT大纲，适合高级学员，45分钟，含互动设计。"}
+{"task_id": "T0050", "type": "text_analysis", "task": "研究绿色供应链政策对人工智能行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0051", "type": "rag_qa", "task": "基于以下数据：用户行为数据显示DAU/MAU比率为0.18，分析用户留存的变化趋势，给出3条数据驱动的业务建议。"}
+{"task_id": "T0052", "type": "text_analysis", "task": "分析2024年消费品行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0053", "type": "text_analysis", "task": "分析2026年人工智能行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0054", "type": "word_document", "task": "为分销代理合作撰写合作协议框架，包含：合作范围、权责划分、收益分配、保密条款、争议解决。"}
+{"task_id": "T0055", "type": "excel_data", "task": "构建消费品的财务预测模型：收入预测、成本结构、现金流分析，包含敏感性分析和3种情景。"}
+{"task_id": "T0056", "type": "ppt_generation", "task": "为AI创业公司的董事会制作产品定位PPT大纲，共8页，每页有标题+3-5个要点，包含数据和案例。"}
+{"task_id": "T0057", "type": "word_document", "task": "撰写用户增长研究报告，包含：摘要、研究背景、方法论、发现与洞察、结论与建议，约2000字。"}
+{"task_id": "T0058", "type": "code_generation", "task": "用Tornado框架构建RESTful API，支持：数据缓存、版本管理、指标上报，包含认证、错误处理、API文档。"}
+{"task_id": "T0059", "type": "text_analysis", "task": "撰写产品定位领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0060", "type": "rag_qa", "task": "根据以下背景：Redis支持String/List/Hash/Set/Sorted Set五种数据结构，支持RDB和AOF持久化，回答：如何满足合规要求？要求：引用具体条款、给出操作建议、列举至少4条要求。"}
+{"task_id": "T0061", "type": "rag_qa", "task": "根据以下规范：OAuth 2.0授权框架规定了四种授权模式，判断大数据处理是否合规，列举需要满足的4个具体条件。"}
+{"task_id": "T0062", "type": "code_generation", "task": "编写日志分析的自动化脚本，处理XML格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0063", "type": "word_document", "task": "为战略合作合作撰写合作协议框架，包含：合作范围、权责划分、收益分配、保密条款、争议解决。"}
+{"task_id": "T0064", "type": "code_generation", "task": "编写日志分析的自动化脚本，处理XML格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0065", "type": "multi_step", "task": "完成以下多步任务：1）现状诊断和问题识别；2）基于步骤1的结果，制定解决方案；3）整合上述结果，提供落地建议，输出完整方案。"}
+{"task_id": "T0066", "type": "text_analysis", "task": "为制造业公司撰写品牌建设的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0067", "type": "ppt_generation", "task": "制作投资者日PPT大纲：问题+方案，面向投资者，时长30分钟，风格创意。"}
+{"task_id": "T0068", "type": "text_analysis", "task": "分析中东市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0069", "type": "multi_step", "task": "执行文件处理工作流：先评估现有方案，然后规划实施步骤，最后输出最终方案，每步输出要明确。"}
+{"task_id": "T0070", "type": "multi_step", "task": "完成以下多步任务：1）现状诊断和问题识别；2）基于步骤1的结果，制定实施计划；3）整合上述结果，形成最终报告，输出完整方案。"}
+{"task_id": "T0071", "type": "code_generation", "task": "实现一个并查集数据结构，支持查找/更新和迭代/序列化操作，线程安全，包含性能测试。"}
+{"task_id": "T0072", "type": "text_analysis", "task": "研究碳中和政策对SaaS软件行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0073", "type": "word_document", "task": "撰写用户增长研究报告，包含：摘要、研究背景、方法论、发现与洞察、结论与建议，约3000字。"}
+{"task_id": "T0074", "type": "text_analysis", "task": "分析2024年人工智能行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0075", "type": "code_generation", "task": "编写日志分析的自动化脚本，处理JSON格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0076", "type": "code_generation", "task": "实现一个优先级队列数据结构，支持插入/删除和批量操作操作，线程安全，包含性能测试。"}
+{"task_id": "T0077", "type": "code_generation", "task": "用Python实现字符串KMP匹配算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n log n))。"}
+{"task_id": "T0078", "type": "multi_step", "task": "完成以下多步任务：1）需求收集和优先级排序；2）基于步骤1的结果，设计技术架构；3）整合上述结果，输出完整可执行方案，输出完整方案。"}
+{"task_id": "T0079", "type": "code_generation", "task": "编写数据同步的自动化脚本，处理JSON格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0080", "type": "ppt_generation", "task": "设计产品部门Q1度工作汇报PPT大纲，包含用户增长、团队效率回顾和下期计划，面向合作伙伴。"}
+{"task_id": "T0081", "type": "multi_step", "task": "完成产品发布项目：从问题定义出发，经过原型验证，最终交付可执行的实施计划。"}
+{"task_id": "T0082", "type": "text_analysis", "task": "为消费品公司撰写品牌建设的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0083", "type": "word_document", "task": "为联合研发合作撰写合作协议框架，包含：合作范围、权责划分、收益分配、保密条款、争议解决。"}
+{"task_id": "T0084", "type": "text_analysis", "task": "为制造业公司撰写市场进入策略的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0085", "type": "code_generation", "task": "用Tornado框架构建GraphQL API，支持：权限控制、版本管理、优雅停机，包含认证、错误处理、API文档。"}
+{"task_id": "T0086", "type": "excel_data", "task": "构建成品库存管理模型：入库/出库记录、安全库存预警、周转率分析、补货建议。"}
+{"task_id": "T0087", "type": "text_analysis", "task": "分析中东市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0088", "type": "ppt_generation", "task": "设计机器学习课程第3课「产品定位」的PPT大纲，适合高级学员，90分钟，含互动设计。"}
+{"task_id": "T0089", "type": "text_analysis", "task": "分析东南亚市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0090", "type": "ppt_generation", "task": "为数据分析平台产品发布会制作PPT大纲：问题引入→解决方案→产品展示→客户证言→价格行动，共15页。"}
+{"task_id": "T0091", "type": "code_generation", "task": "用Python实现图最短路径（Dijkstra）算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n log n))。"}
+{"task_id": "T0092", "type": "rag_qa", "task": "基于以下数据：销售数据显示Q1收入增长12%但客单价下降15%，分析成本结构的变化趋势，给出3条数据驱动的业务建议。"}
+{"task_id": "T0093", "type": "ppt_generation", "task": "为传统制造企业的合作伙伴制作产品定位PPT大纲，共8页，每页有标题+3-5个要点，包含数据和案例。"}
+{"task_id": "T0094", "type": "rag_qa", "task": "基于文档内容：React的Fiber架构将渲染工作分解为可中断的小单元，解释内部机制的工作原理，并给出在大数据处理场景下的实现方案。"}
+{"task_id": "T0095", "type": "text_analysis", "task": "分析欧洲市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0096", "type": "code_generation", "task": "实现一个并查集数据结构，支持插入/删除和迭代/序列化操作，线程安全，包含性能测试。"}
+{"task_id": "T0097", "type": "word_document", "task": "撰写降本增效研究报告，包含：摘要、研究背景、方法论、发现与洞察、结论与建议，约2000字。"}
+{"task_id": "T0098", "type": "ppt_generation", "task": "设计销售部门年度工作汇报PPT大纲，包含用户增长、技术债务回顾和下期计划，面向投资者。"}
+{"task_id": "T0099", "type": "ppt_generation", "task": "为电商平台的投资者制作品牌建设PPT大纲，共8页，每页有标题+3-5个要点，包含数据和案例。"}
+{"task_id": "T0100", "type": "code_generation", "task": "编写报表生成的自动化脚本，处理XML格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0101", "type": "excel_data", "task": "创建同期群分析模板：数据清洗规则、计算逻辑、输出格式，包含示例数据和使用说明。"}
+{"task_id": "T0102", "type": "word_document", "task": "编写数据服务产品需求文档（PRD），包含：功能描述、用户故事、验收标准、优先级，格式规范。"}
+{"task_id": "T0103", "type": "ppt_generation", "task": "设计财务分析课程第5课「产品定位」的PPT大纲，适合零基础学员，45分钟，含互动设计。"}
+{"task_id": "T0104", "type": "word_document", "task": "为采购审批流程编写SOP文档，包含：流程概述、步骤详述、异常处理、质量检查点，格式规范。"}
+{"task_id": "T0105", "type": "excel_data", "task": "构建零配件库存管理模型：入库/出库记录、安全库存预警、周转率分析、补货建议。"}
+{"task_id": "T0106", "type": "text_analysis", "task": "分析2026年人工智能行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0107", "type": "excel_data", "task": "构建消费品的财务预测模型：收入预测、成本结构、现金流分析，包含敏感性分析和3种情景。"}
+{"task_id": "T0108", "type": "text_analysis", "task": "分析东南亚市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0109", "type": "word_document", "task": "编写数据服务产品需求文档（PRD），包含：功能描述、用户故事、验收标准、优先级，格式规范。"}
+{"task_id": "T0110", "type": "ppt_generation", "task": "制作投资者日PPT大纲：回顾+展望，面向客户，时长45分钟，风格简洁。"}
+{"task_id": "T0111", "type": "excel_data", "task": "设计营销活动项目管理看板：任务分解、时间线、资源分配、进度追踪，含甘特图和里程碑。"}
+{"task_id": "T0112", "type": "text_analysis", "task": "研究数据安全法政策对SaaS软件行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0113", "type": "code_generation", "task": "用Python实现异常检测：数据预处理、特征工程、模型训练（LRU缓存）、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0114", "type": "code_generation", "task": "用Python实现异常检测：数据预处理、特征工程、模型训练（图最短路径（Dijkstra））、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0115", "type": "excel_data", "task": "构建成品库存管理模型：入库/出库记录、安全库存预警、周转率分析、补货建议。"}
+{"task_id": "T0116", "type": "rag_qa", "task": "基于文档内容：React的Fiber架构将渲染工作分解为可中断的小单元，解释内部机制的工作原理，并给出在高并发场景场景下的实现方案。"}
+{"task_id": "T0117", "type": "word_document", "task": "撰写数据中台项目的技术方案文档，包含：背景、技术架构、实施计划、风险评估、资源需求，约12页。"}
+{"task_id": "T0118", "type": "rag_qa", "task": "根据产品手册内容，回答关于数字化转型的问题：如何实现X功能，要求答案完整、有据可查、给出具体步骤。"}
+{"task_id": "T0119", "type": "text_analysis", "task": "为制造业公司撰写用户增长的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0120", "type": "text_analysis", "task": "研究绿色供应链政策对人工智能行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0121", "type": "word_document", "task": "撰写数据中台项目的技术方案文档，包含：背景、技术架构、实施计划、风险评估、资源需求，约8页。"}
+{"task_id": "T0122", "type": "word_document", "task": "撰写AI平台项目的技术方案文档，包含：背景、技术架构、实施计划、风险评估、资源需求，约10页。"}
+{"task_id": "T0123", "type": "word_document", "task": "为客户onboarding流程编写SOP文档，包含：流程概述、步骤详述、异常处理、质量检查点，格式规范。"}
+{"task_id": "T0124", "type": "text_analysis", "task": "研究数据安全法政策对半导体行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0125", "type": "code_generation", "task": "实现一个优先级队列数据结构，支持查找/更新和迭代/序列化操作，线程安全，包含性能测试。"}
+{"task_id": "T0126", "type": "code_generation", "task": "编写日志分析的自动化脚本，处理JSON格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0127", "type": "text_analysis", "task": "分析欧洲市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0128", "type": "code_generation", "task": "用Python实现聚类分析：数据预处理、特征工程、模型训练（图最短路径（Dijkstra））、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0129", "type": "text_analysis", "task": "撰写市场进入策略领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0130", "type": "rag_qa", "task": "根据技术规范内容，回答关于用户增长的问题：如何满足合规要求，要求答案完整、有据可查、给出具体步骤。"}
+{"task_id": "T0131", "type": "code_generation", "task": "用Python实现异常检测：数据预处理、特征工程、模型训练（快速排序）、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0132", "type": "text_analysis", "task": "分析日本市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0133", "type": "text_analysis", "task": "分析2024年人工智能行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0134", "type": "text_analysis", "task": "分析2025年半导体行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0135", "type": "rag_qa", "task": "根据以下规范：RESTful API设计规范要求使用HTTP动词，判断高并发场景是否合规，列举需要满足的5个具体条件。"}
+{"task_id": "T0136", "type": "code_generation", "task": "用Python实现动态规划背包算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(1))。"}
+{"task_id": "T0137", "type": "code_generation", "task": "用Python实现时序预测：数据预处理、特征工程、模型训练（LRU缓存）、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0138", "type": "multi_step", "task": "执行文件处理工作流：先评估现有方案，然后制定改进方案，最后完成文档交付，每步输出要明确。"}
+{"task_id": "T0139", "type": "code_generation", "task": "编写日志分析的自动化脚本，处理CSV格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0140", "type": "text_analysis", "task": "撰写降本增效领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0141", "type": "ppt_generation", "task": "制作产品发布PPT大纲：回顾+展望，面向董事会，时长60分钟，风格创意。"}
+{"task_id": "T0142", "type": "word_document", "task": "撰写微服务迁移项目的技术方案文档，包含：背景、技术架构、实施计划、风险评估、资源需求，约12页。"}
+{"task_id": "T0143", "type": "code_generation", "task": "用Tornado框架构建gRPC API，支持：权限控制、日志审计、健康检查，包含认证、错误处理、API文档。"}
+{"task_id": "T0144", "type": "word_document", "task": "为联合研发合作撰写合作协议框架，包含：合作范围、权责划分、收益分配、保密条款、争议解决。"}
+{"task_id": "T0145", "type": "word_document", "task": "编写移动App产品需求文档（PRD），包含：功能描述、用户故事、验收标准、优先级，格式规范。"}
+{"task_id": "T0146", "type": "code_generation", "task": "用Python实现动态规划背包算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n))。"}
+{"task_id": "T0147", "type": "excel_data", "task": "构建原材料库存管理模型：入库/出库记录、安全库存预警、周转率分析、补货建议。"}
+{"task_id": "T0148", "type": "code_generation", "task": "用Tornado框架构建GraphQL API，支持：数据缓存、日志审计、优雅停机，包含认证、错误处理、API文档。"}
+{"task_id": "T0149", "type": "ppt_generation", "task": "为电商平台的员工制作用户增长PPT大纲，共8页，每页有标题+3-5个要点，包含数据和案例。"}
+{"task_id": "T0150", "type": "rag_qa", "task": "基于以下数据：用户行为数据显示DAU/MAU比率为0.18，分析成本结构的变化趋势，给出4条数据驱动的业务建议。"}
+{"task_id": "T0151", "type": "text_analysis", "task": "分析2024年消费品行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0152", "type": "ppt_generation", "task": "设计运营部门Q2度工作汇报PPT大纲，包含产品迭代、团队效率回顾和下期计划，面向员工。"}
+{"task_id": "T0153", "type": "word_document", "task": "撰写ERP升级项目的技术方案文档，包含：背景、技术架构、实施计划、风险评估、资源需求，约15页。"}
+{"task_id": "T0154", "type": "ppt_generation", "task": "设计销售部门Q2度工作汇报PPT大纲，包含收入达成、团队效率回顾和下期计划，面向董事会。"}
+{"task_id": "T0155", "type": "word_document", "task": "为联合研发合作撰写合作协议框架，包含：合作范围、权责划分、收益分配、保密条款、争议解决。"}
+{"task_id": "T0156", "type": "ppt_generation", "task": "为数据分析平台产品发布会制作PPT大纲：问题引入→解决方案→产品展示→客户证言→价格行动，共12页。"}
+{"task_id": "T0157", "type": "code_generation", "task": "用Flask框架构建gRPC API，支持：权限控制、版本管理、健康检查，包含认证、错误处理、API文档。"}
+{"task_id": "T0158", "type": "excel_data", "task": "创建RFM分析模板：数据清洗规则、计算逻辑、输出格式，包含示例数据和使用说明。"}
+{"task_id": "T0159", "type": "word_document", "task": "编写B2B平台产品需求文档（PRD），包含：功能描述、用户故事、验收标准、优先级，格式规范。"}
+{"task_id": "T0160", "type": "word_document", "task": "撰写数据中台项目的技术方案文档，包含：背景、技术架构、实施计划、风险评估、资源需求，约12页。"}
+{"task_id": "T0161", "type": "rag_qa", "task": "根据行业报告内容，回答关于产品定位的问题：如何实现X功能，要求答案完整、有据可查、给出具体步骤。"}
+{"task_id": "T0162", "type": "text_analysis", "task": "撰写数字化转型领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0163", "type": "rag_qa", "task": "根据以下背景：Kubernetes中Pod是最小调度单元，Deployment管理副本，Service提供稳定网络访问，回答：如何满足合规要求？要求：引用具体条款、给出操作建议、列举至少5条要求。"}
+{"task_id": "T0164", "type": "text_analysis", "task": "为B2B SaaS公司撰写数字化转型的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0165", "type": "code_generation", "task": "编写数据同步的自动化脚本，处理JSON格式数据，支持批处理和断点续传，输出处理报告。"}
+{"task_id": "T0166", "type": "word_document", "task": "撰写产品定位研究报告，包含：摘要、研究背景、方法论、发现与洞察、结论与建议，约2000字。"}
+{"task_id": "T0167", "type": "text_analysis", "task": "研究绿色供应链政策对新能源汽车行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0168", "type": "ppt_generation", "task": "为企业协作工具产品发布会制作PPT大纲：问题引入→解决方案→产品展示→客户证言→价格行动，共10页。"}
+{"task_id": "T0169", "type": "word_document", "task": "撰写用户增长研究报告，包含：摘要、研究背景、方法论、发现与洞察、结论与建议，约2000字。"}
+{"task_id": "T0170", "type": "text_analysis", "task": "分析2024年SaaS软件行业的发展趋势，包括市场规模、主要玩家、驱动因素，并预测未来12个月走势。输出结构化分析报告，包含具体数据。"}
+{"task_id": "T0171", "type": "code_generation", "task": "用Flask框架构建gRPC API，支持：数据缓存、日志审计、健康检查，包含认证、错误处理、API文档。"}
+{"task_id": "T0172", "type": "ppt_generation", "task": "为AI写作助手产品发布会制作PPT大纲：问题引入→解决方案→产品展示→客户证言→价格行动，共10页。"}
+{"task_id": "T0173", "type": "text_analysis", "task": "研究碳中和政策对SaaS软件行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0174", "type": "text_analysis", "task": "为B2B SaaS公司撰写降本增效的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0175", "type": "excel_data", "task": "创建归因分析模板：数据清洗规则、计算逻辑、输出格式，包含示例数据和使用说明。"}
+{"task_id": "T0176", "type": "multi_step", "task": "完成软件开发项目：从问题定义出发，经过迭代优化，最终交付带数据支持的分析报告。"}
+{"task_id": "T0177", "type": "rag_qa", "task": "根据法律文件内容，回答关于品牌建设的问题：应该选择哪种方案，要求答案完整、有据可查、给出具体步骤。"}
+{"task_id": "T0178", "type": "ppt_generation", "task": "制作投资者日PPT大纲：回顾+展望，面向合作伙伴，时长45分钟，风格正式。"}
+{"task_id": "T0179", "type": "word_document", "task": "为代码发布流程编写SOP文档，包含：流程概述、步骤详述、异常处理、质量检查点，格式规范。"}
+{"task_id": "T0180", "type": "ppt_generation", "task": "为企业协作工具产品发布会制作PPT大纲：问题引入→解决方案→产品展示→客户证言→价格行动，共10页。"}
+{"task_id": "T0181", "type": "rag_qa", "task": "基于以下数据：用户行为数据显示DAU/MAU比率为0.18，分析用户留存的变化趋势，给出5条数据驱动的业务建议。"}
+{"task_id": "T0182", "type": "text_analysis", "task": "撰写数字化转型领域的技术白皮书，包括技术原理、应用场景、实施挑战、ROI估算，面向企业决策层。"}
+{"task_id": "T0183", "type": "word_document", "task": "撰写市场进入策略研究报告，包含：摘要、研究背景、方法论、发现与洞察、结论与建议，约2000字。"}
+{"task_id": "T0184", "type": "excel_data", "task": "设计运营KPI追踪仪表盘：指标定义、计算公式、可视化图表、环比/同比对比，数据可直接填入。"}
+{"task_id": "T0185", "type": "ppt_generation", "task": "设计机器学习课程第1课「用户增长」的PPT大纲，适合零基础学员，60分钟，含互动设计。"}
+{"task_id": "T0186", "type": "ppt_generation", "task": "设计财务分析课程第1课「产品定位」的PPT大纲，适合零基础学员，45分钟，含互动设计。"}
+{"task_id": "T0187", "type": "text_analysis", "task": "分析东南亚市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
+{"task_id": "T0188", "type": "excel_data", "task": "设计销售KPI追踪仪表盘：指标定义、计算公式、可视化图表、环比/同比对比，数据可直接填入。"}
+{"task_id": "T0189", "type": "word_document", "task": "为财务结账流程编写SOP文档，包含：流程概述、步骤详述、异常处理、质量检查点，格式规范。"}
+{"task_id": "T0190", "type": "code_generation", "task": "实现一个优先级队列数据结构，支持查找/更新和迭代/序列化操作，线程安全，包含性能测试。"}
+{"task_id": "T0191", "type": "text_analysis", "task": "为消费品公司撰写市场进入策略的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0192", "type": "text_analysis", "task": "为教育科技公司撰写降本增效的竞争对手分析报告，覆盖5家主要竞争对手的产品、定价、市场份额和差异化策略。"}
+{"task_id": "T0193", "type": "text_analysis", "task": "研究个人信息保护政策对跨境电商行业的影响，分析短中长期影响，并给出企业应对策略建议。"}
+{"task_id": "T0194", "type": "code_generation", "task": "用Python实现快速排序算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n))。"}
+{"task_id": "T0195", "type": "code_generation", "task": "实现一个Trie树数据结构，支持查找/更新和批量操作操作，线程安全，包含性能测试。"}
+{"task_id": "T0196", "type": "code_generation", "task": "用Python实现聚类分析：数据预处理、特征工程、模型训练（LRU缓存）、评估指标、可视化，代码可直接运行。"}
+{"task_id": "T0197", "type": "rag_qa", "task": "根据以下规范：RESTful API设计规范要求使用HTTP动词，判断分布式环境是否合规，列举需要满足的4个具体条件。"}
+{"task_id": "T0198", "type": "code_generation", "task": "用Python实现字符串KMP匹配算法，要求：有详细注释、处理边界情况、包含单元测试、时间复杂度O(O(n²))。"}
+{"task_id": "T0199", "type": "multi_step", "task": "完成产品发布项目：从问题定义出发，经过迭代优化，最终交付完整解决方案文档。"}
+{"task_id": "T0200", "type": "text_analysis", "task": "分析日本市场的消费者画像，包括年龄分布、消费偏好、决策路径、媒体习惯，给出针对性的营销建议。"}
