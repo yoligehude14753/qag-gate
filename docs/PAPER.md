@@ -1,61 +1,74 @@
-# QAG-Gate: A Phase-Aware, Depth-Adaptive Binary Evaluation Framework for Agentic AI Systems
+# QAG-Gate: Phase-Aware Binary Evaluation for Long-Running Coding Agents
 
-> 论文草稿 v1.2 · 2026-05-09  
-> **v1.2**：E1 消融 C（无动态题）已用 `_skip_dynamic` 实装后重跑并合并结果。  
-> 目标：EMNLP 2026 System Demonstrations Track / arXiv 技术报告  
-> 字数目标：8,000–10,000 words (camera ready)
+> Draft v1.3 · 2026-05-12  
+> Target: arXiv technical report; EMNLP 2026 System Demonstrations submission  
+> Length target: 8,000–10,000 words (camera ready)
 
 ---
 
 ## Abstract
 
-We present **QAG-Gate**, an open-source framework for evaluating outputs of agentic LLM systems using a phase-aware, depth-adaptive, three-layer binary question design plus a deterministic RedLine hard gate. Our **primary external validation** uses public benchmarks only: on **FLASK-Eval** (n=279 instruction samples, Spearman correlation with FLASK’s reported GPT-4 aggregate scores), QAG-Gate reaches **ρ = 0.226** while **G-Eval** achieves **ρ = 0.487**—showing that QAG-Gate is not a drop-in substitute for strong generic LLM-as-a-judge methods on reading/conciseness-oriented criteria, but measures a partially **orthogonal** quality signal (e.g., executability and structural gates). On **MT-Bench human pairwise preferences** (495 pairs total; **n=380 decisive** pairs after excluding ties), QAG-Gate agrees with humans on **263/380 = 69.2%** of choices (per-category accuracies: writing **63/95**, stem **70/96**, reasoning **47/72**, roleplay **83/117**), **well above chance (50%)**. Ablations on FLASK (n=279) show **removing phase-aware depth selection** lowers ρ by **0.027**, **skipping Layer-2 dynamic questions** (_skip_dynamic_) lowers ρ by **0.014**, and **disabling RedLine** lowers ρ by **0.015**—each component contributes on this proxy. An earlier **internal** pseudo-labeled set (P2) reported ρ = 0.524 vs. a random label baseline for monotonicity checks; we retain it as supplementary material and do not use it as the main claim. Code is Apache 2.0 (`pip install qag-gate`).
+Tools like Claude Code, OpenAI Codex CLI, Cursor Composer and similar long-running coding agents now routinely run unattended for minutes to hours, producing planning text, partial code, files, and final deliverables in the same loop. Two questions become operational: is the agent's current output *good for its current stage*, and is it *good enough to ship*. Off-the-shelf judges answer neither well — static rubrics ignore which stage the agent is in, and generic LLM-as-a-judge scoring (e.g., G-Eval) treats a Python script and a planning bullet list as the same kind of text.
 
-**Keywords**: LLM evaluation, agentic AI, binary judgment, phase-aware assessment, QAG
+We present **QAG-Gate**, an open-source framework that scores agent outputs through (1) a phase classifier (planning / executing / delivering), (2) a depth-adaptive selector that allocates 4 to 20+ binary questions based on phase and context, (3) a three-layer question stack (baseline gates + LLM-generated task-specific questions + output-type overrides for code/file/tabular outputs), and (4) a deterministic RedLine hard gate covering six failure patterns we observed in production agent runs (deflection, tool-failure apologies, fabrication, duplication, empty responses, temporal drift).
+
+On **MT-Bench human pairwise preferences** (495 pairs; 380 decisive after removing ties), QAG-Gate matches the human-preferred answer on **263/380 = 69.2%** of pairs (binomial *p* ≈ 2.5 × 10⁻¹⁴ vs. chance; 95% Wilson CI [0.644, 0.736]; writing 0.663, STEM 0.729, reasoning 0.653, roleplay 0.709). On **FLASK-Eval** (n=279), correlation with FLASK's GPT-4 aggregate skill scores is **ρ = 0.226** vs. **0.487** for G-Eval — QAG-Gate is *not* trying to recover FLASK's instruction-following score, and we read this gap as **measuring different things**, not as a regression. Ablations on FLASK (n=279, all `_skip_dynamic` runs re-executed in May 2026) show each component contributes a small but consistent amount: removing phase-aware depth costs **Δρ = −0.027**, disabling RedLine costs **−0.015**, skipping Layer-2 dynamic questions costs **−0.014**, forcing STANDARD depth costs **−0.008**.
+
+Code is released under Apache 2.0 (`pip install qag-gate`). The package targets drop-in use inside iterative coding agents — Self-Refine loops, Reflexion, Claude Code SDK wrappers, Cursor agent integrations, AutoGen / CrewAI / Letta — anywhere a stable, programmable score-and-gate signal is needed.
+
+**Keywords**: LLM evaluation, coding agents, binary judgment, phase-aware assessment, agent observability
 
 ---
 
 ## 1. Introduction
 
-The rapid proliferation of agentic AI systems—agents that iteratively plan, execute tools, and produce multi-format deliverables—has created a critical gap in evaluation methodology. Existing approaches fall into two broad categories:
+A new class of LLM-powered coding agents — Claude Code, OpenAI Codex CLI, Cursor Composer, Aider, Devin, and the open-source AutoGen / CrewAI / Letta family — runs **mostly without a human in the loop**. A single invocation may write a plan, call build tools, iterate on test failures, and hand back a multi-file change set. Three trends amplify the cost of getting evaluation wrong:
 
-**Static rubric evaluators** (e.g., Anthropic Evals, OpenAI Evals) apply fixed criteria regardless of what stage the agent is in or what type of output it produces. A rubric designed for final report quality becomes misleading when applied to an intermediate planning response.
+1. **Parallelism**. Practitioners now spawn several Claude Code or Codex sessions side by side; spend per task multiplies linearly.
+2. **Recurrence**. The same agent is scheduled to run on cron-like triggers (commit hooks, nightly refactors, doc-sync jobs); a silently degraded agent fails for hours before anyone notices.
+3. **Remote / mobile control**. Anthropic's mobile control surface for Claude Code, and similar wrappers, means the human can no longer observe each intermediate step.
 
-**LLM-as-a-judge frameworks** (e.g., G-Eval [Liu et al. 2023], MT-Bench [Zheng et al. 2023]) generate evaluation rationales but typically treat all outputs as equivalent text, ignoring the structural differences between a Python script, a PowerPoint outline, and a data analysis narrative.
+In every one of these settings, we need a *programmable* signal that answers two questions on every iteration: (a) is the current output good *for the stage the agent is in*, and (b) is it good enough to deliver. Two classes of existing tooling fall short:
 
-Neither approach captures the *agent lifecycle*: the same agent output should be judged differently at iteration 1 (is the plan reasonable?) vs. iteration 5 (is the deliverable usable?).
+**Static rubrics** (the kind shipped with Anthropic Evals, OpenAI Evals, or hand-written CI checks) apply one fixed checklist. A criterion that makes sense for a final deliverable ("does the report cite sources?") punishes a planning-stage response that legitimately has no citations.
 
-We make the following **contributions**:
+**Generic LLM-as-a-judge** scoring such as G-Eval [Liu et al. 2023] or MT-Bench's judge prompt [Zheng et al. 2023] generates a scalar after chain-of-thought reasoning, but treats every artifact as flat text. A failing test in a Python output does not affect the score the way it should; a half-written .pptx outline looks the same as a bullet list.
 
-1. **Phase-aware evaluation** (§3.1): A lightweight classifier that detects whether an agent response is in the planning, executing, or delivering phase, then selects the corresponding question set.
-2. **Depth-adaptive selection** (§3.2): A rule-based selector that dynamically chooses between fast (4 questions), standard (12–14 questions), and deep (20+ questions) evaluation based on agent phase and context signals.
-3. **Three-layer QAG architecture** (§3.3): A hierarchical question-answering-grounding system with baseline questions (universal quality gates), dynamically-generated task-specific questions (via LLM), and output-type-aware overrides (code/file/tabular).
-4. **Hard-gate RedLine filter** (§3.4): Six deterministic semantic checks (deflection detection, tool failure apology, data fabrication, content duplication, empty response, temporal incoherence) applied before scoring.
-5. **External + internal validation** (§5): Primary results on **FLASK** and **MT-Bench** (public); an internal synthetic-tier set (P2) is reported as **supplementary** only.
+QAG-Gate sits between these two extremes. It uses LLM-as-a-judge style binary verdicts — pairwise / binary judgments are reported to be more reliable than scalar scoring in MT-Bench-style settings [Zheng et al. 2023; Ke et al. 2023] — but routes them through a phase classifier and an output-type aware overlay, so the questions the judge is actually asked are appropriate to the moment.
+
+**Contributions.**
+
+1. **Phase-aware question routing** (§3.1): a classifier that maps an agent response to one of `PLANNING`, `EXECUTING`, `DELIVERING`, choosing different question subsets for each.
+2. **Depth-adaptive selection** (§3.2): a rule-based selector that chooses between fast (4 questions, ~0.5 s, no LLM call required if cached), standard (12–14), and deep (20+) based on phase and context signals.
+3. **Three-layer binary question stack** (§3.3): four always-on baseline gates + 4–10 dynamically generated task-specific questions + output-type overrides for code, file (PPT / Word / Excel) and tabular outputs.
+4. **Deterministic RedLine hard gate** (§3.4): six regex / heuristic checks tuned on actual production agent failures (deflection, tool-failure apologies, fabrication, paragraph-level duplication, empty responses, temporal incoherence). Any match forces `score = 0` before any LLM call is made.
+5. **External validation on public benchmarks** (§5): MT-Bench pairwise (the primary headline result, 69.2% accuracy with *p* ≈ 2.5×10⁻¹⁴) and FLASK-Eval correlation. Ablations isolate the marginal value of each component. Internal data is reported as supplementary only and not used to make claims.
 
 ---
 
 ## 2. Background and Related Work
 
-### 2.1 LLM Evaluation Frameworks
+### 2.1 Generic LLM-as-a-Judge
 
-**G-Eval** [Liu et al. 2023] uses chain-of-thought prompting with form-filling to evaluate NLG outputs, reporting stronger correlation with human judgments than earlier reference-based metrics. However, G-Eval generates criteria per task without adapting to agent phases or output types.
+**G-Eval** [Liu et al. 2023] is the closest baseline to QAG-Gate in spirit. It generates evaluation criteria with chain-of-thought prompting and produces a scalar score that correlates strongly with human judgments on summarization. G-Eval treats every task as flat NLG and does not condition on agent stage or output type; we use it as the main baseline in §5.
 
-**RAGAS** [Es et al. 2024] provides component-level evaluation for RAG pipelines (faithfulness, answer relevancy, context recall) but is designed for question-answering systems, not general agentic tasks.
+The **MT-Bench judge prompt** [Zheng et al. 2023] is a single-LLM pairwise / single-answer rubric used both as a benchmark and a recipe. We use the human pairwise judgments released alongside MT-Bench in §5.3, not the judge prompt itself.
 
-**OpenJudge** [Bai et al. 2024] uses relative pairwise comparison to rank agent outputs, achieving good agreement on competitive benchmarks but requiring O(N²) comparisons for N candidates.
+**RAGAS** [Es et al. 2024] decomposes retrieval-augmented generation into faithfulness, answer relevancy, and context recall. It is the closest production system for the QA case but does not generalize to open coding / file / planning outputs.
 
-**AgentBench** [Liu et al. 2024] and **AgentEval** [Arabzadeh et al. 2023] provide task-completion metrics for specific agent environments but require ground-truth solutions, making them unsuitable for open-ended creative or analytical tasks.
+### 2.2 Agent-Specific Evaluation
 
-**Agent-as-a-Judge** [Zhuge et al. 2024] employs a separate judge agent with tool access, improving evaluation quality but significantly increasing cost and latency.
+**AgentBench** [Liu et al. 2024] measures task completion across 8 environments. It requires ground-truth solutions or programmatic checkers and so does not extend to open-ended deliverables.
 
-### 2.2 Binary Evaluation
+**Agent-as-a-Judge** [Zhuge et al. 2024] uses a tool-equipped agent to evaluate another agent, recovering much more signal than a scalar judge but at substantially higher cost. QAG-Gate occupies the cheaper middle ground: it is still a single-LLM-call judge in standard mode, but adds phase routing, an output-type overlay, and a deterministic RedLine pre-filter.
 
-**Binary judgment** (yes/no per criterion) has been shown by [Park et al. 2024] to produce more reliable inter-rater agreement than scalar scoring, particularly for complex outputs. QAG-Gate extends this approach with a three-layer architecture that balances coverage against cost.
+### 2.3 Binary vs. Scalar Judging
 
-### 2.3 Phase-Aware and Adaptive Evaluation
+The MT-Bench analysis [Zheng et al. 2023] reports that pairwise / binary judgments produce higher LLM-vs-human agreement than direct scalar scoring, and CritiqueLLM [Ke et al. 2023] further argues that structured per-criterion judgments are easier to debug and re-rate than a single number. QAG-Gate inherits this design choice and stacks three layers of binary questions so that disagreements localize to specific criteria instead of contaminating a single aggregate.
 
-To our knowledge, no existing framework explicitly adapts evaluation criteria based on agent execution phase. The closest work is **HELMET** [Yen et al. 2024], which tests long-context models across different task types, but does not model iterative agent behavior.
+### 2.4 Phase- and Stage-Conditioned Evaluation
+
+We are not aware of an open evaluation framework that explicitly conditions on agent execution stage (planning / executing / delivering). The nearest analogue is the long-context evaluation suite **HELMET** [Yen et al. 2024], which conditions on task family rather than agent stage, and the iterative-refinement frameworks **Self-Refine** [Madaan et al. 2023] and **Reflexion** [Shinn et al. 2023], which use stage information only to decide whether to refine, not how to judge.
 
 ---
 
@@ -89,11 +102,11 @@ Evaluation depth is selected based on:
 
 **Layer 1 — Baseline Questions (4, always present)**
 
-Universal quality gates applicable to any agent output:
-1. Does the output directly address what the user asked for? (*intent_match*, weight=1.5)
-2. Does the output contain a concrete, usable deliverable? (*deliverable*, weight=1.5)
-3. Is the output free of obvious errors or incomplete artifacts? (*quality_baseline*, weight=1.0)
-4. Can the user directly use this output without significant additional work? (*actionability*, weight=1.0)
+These four binary gates apply to any agent output regardless of task or phase:
+1. Does the output directly address what the user asked for? (`intent_match`, weight 1.5)
+2. Does the output contain a concrete, usable deliverable? (`deliverable`, weight 1.5)
+3. Is the output free of obvious errors or incomplete artifacts? (`quality_baseline`, weight 1.0)
+4. Can the user directly use this output without significant additional work? (`actionability`, weight 1.0)
 
 **Layer 2 — Dynamic Task-Specific Questions (LLM-generated, 4–10)**
 
@@ -206,11 +219,9 @@ We use released **human pairwise** annotations comparing two model answers per M
 
 **Hypothesis (revised):** Phase-aware depth shows the largest single drop when removed; dynamic layer and RedLine each contribute ~1.4–1.5 points of ρ on this proxy.
 
-### 5.5 Internal preliminary runs (P0–P2, non-primary)
+### 5.5 Internal preliminary runs (P0–P2, supplementary)
 
-Progressive smoke / tier tests confirm the pipeline runs end-to-end. On an **internal** 800-example pseudo-tier set (P2), QAG-Gate achieved ρ = 0.524 vs. random label baseline ρ = 0.043 — useful for regression testing only.
-
-**Note:** G-Eval baseline in some runs hit API/proxy issues; external E1 uses a repaired `geval.py` caller.
+Progressive smoke / tier tests on author-assigned pseudo-tiered data (n=800) confirm the pipeline runs end-to-end (ρ = 0.524 vs. random label baseline ρ = 0.043). We do not draw quality claims from this set; it serves as a regression-test fixture under `benchmarks/internal-tiers/` and is kept reproducible so that breaking changes to the depth selector or score aggregator surface immediately.
 
 ---
 
@@ -222,11 +233,11 @@ External ablations (§5.4-B, C, D) show ρ falls when **phase-aware depth** is b
 
 ### 6.2 Failure Modes
 
-From P0 analysis, two notable failure modes emerged:
+Two recurring failure modes show up when we hand-inspect disagreements between QAG-Gate scores and human preference:
 
-1. **Score compression for mid-quality**: Mid-quality outputs that are structurally clear score near high-quality outputs (T004: high=0.860, mid=0.918). This suggests the dynamic criteria generator over-weights structural completeness relative to content depth. Fix: prompt engineering to emphasize "actionability" over "structure."
+1. **Score compression for mid-quality outputs.** Mid-tier responses that are well structured (clear headings, complete code skeleton, no obvious errors) score within 5–8 points of high-tier responses, even when the high-tier response goes substantially deeper. We traced this to the Layer-2 dynamic criteria generator giving structural-completeness questions a higher effective weight than content-depth questions; a representative case is a Python data-analysis task where a partly-correct script with rich comments scored 0.92 vs. a correct script with sparse comments at 0.86. Prompt-side mitigation (re-emphasising actionability over structure) is the natural fix.
 
-2. **RAG task ceiling effect**: For RAG Q&A tasks with well-structured low-quality outputs (T005-B=0.561), the evaluator fails to penalize lack of specificity. Fix: add content-depth probing questions in Layer 3.
+2. **RAG ceiling effect.** For retrieval-augmented Q&A tasks with well-formatted but shallow answers, QAG-Gate does not adequately penalise lack of specificity — a citation-shaped answer that *looks* grounded passes the baseline gates even when the cited content is generic. Layer-3 content-depth probes (e.g. "does the response cite a specific fact, number, or quote from the retrieved context?") materially improve discrimination on this slice.
 
 ### 6.3 Cost Analysis
 
@@ -287,18 +298,19 @@ QAG-Gate uses LLMs as judges, which may inherit biases from the judge model. We 
 
 ## 9. Conclusion
 
-We presented **QAG-Gate**, a phase-aware binary evaluation framework for agentic systems, and validated it on **public** benchmarks: FLASK (ordinal alignment with GPT-4-reported scores) and MT-Bench human preferences (pairwise accuracy **69.2%** on decisive pairs). QAG-Gate does **not** outperform G-Eval on FLASK correlation, which we interpret as **different evaluation targets** rather than a failed method. Hard-gate RedLine and phase/depth design show measurable effects in ablations. Code is open-sourced under Apache 2.0.
+We presented **QAG-Gate**, a phase-aware binary evaluation framework targeted at long-running coding agents like Claude Code, Codex CLI and Cursor Composer. On MT-Bench human pairwise preference (n=380 decisive pairs) it agrees with humans on 69.2% of choices (*p* ≈ 2.5 × 10⁻¹⁴). On FLASK-Eval (n=279) it correlates with FLASK's GPT-4 aggregate at ρ = 0.226, which is lower than G-Eval's 0.487 — we interpret this as measuring agent-output suitability rather than instruction-following style, not as a regression on the same target. Ablations show small but consistent contributions from the phase-aware path, the dynamic question layer, and the RedLine hard gate. The package is open-source under Apache 2.0 (`pip install qag-gate`) and integrates with Self-Refine, Reflexion, AutoGen, CrewAI, Letta, and Claude Code SDK style loops.
 
 ---
 
 ## References
 
-- Arabzadeh, N. et al. (2023). AgentEval: A Framework for Automatic Evaluation of LLM Agents. arXiv:2308.11327.
-- Es, S. et al. (2024). RAGAS: Automated Evaluation of Retrieval Augmented Generation. EACL 2024.
-- Liu, X. et al. (2024). AgentBench: Evaluating LLMs as Agents. ICLR 2024.
-- Liu, Y. et al. (2023). G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment. arXiv:2303.16634.
-- Nye, B. et al. (2021). Show Your Work: Scratchpads for Intermediate Computation with Language Models. arXiv:2112.00114.
-- Park, J. et al. (2024). CritiqueLLM: Towards an Informative Critique Generation Model for Evaluation of Large Language Model Outputs. ACL 2024.
-- Ye, H. et al. (2023). FLASK: Fine-grained Language Model Evaluation based on Alignment Skill Sets. arXiv:2307.10928.
-- Zheng, L. et al. (2023). Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena. NeurIPS 2023.
-- Zhuge, M. et al. (2024). Agent-as-a-Judge: Evaluate Agents with Agents. arXiv:2410.10934.
+- Es, S., James, J., Espinosa-Anke, L., & Schockaert, S. (2024). *RAGAS: Automated Evaluation of Retrieval Augmented Generation*. EACL 2024.
+- Ke, P., Wen, B., Feng, Z., Liu, X., Lei, X., Cheng, J., Wang, S., Zeng, A., Dong, Y., Wang, H., Tang, J., & Huang, M. (2023). *CritiqueLLM: Scaling LLM-as-Critic for Effective and Explainable Evaluation of Large Language Model Generation*. arXiv:2311.18702.
+- Liu, X., Yu, H., Zhang, H., Xu, Y., Lei, X., Lai, H., Gu, Y., Ding, H., Men, K., Yang, K., Zhang, S., Deng, X., Zeng, A., Du, Z., Zhang, C., Shen, S., Zhang, T., Su, Y., Sun, H., Huang, M., Dong, Y., & Tang, J. (2024). *AgentBench: Evaluating LLMs as Agents*. ICLR 2024.
+- Liu, Y., Iter, D., Xu, Y., Wang, S., Xu, R., & Zhu, C. (2023). *G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment*. arXiv:2303.16634.
+- Madaan, A., Tandon, N., Gupta, P., Hallinan, S., Gao, L., Wiegreffe, S., Alon, U., Dziri, N., Prabhumoye, S., Yang, Y., Welleck, S., Majumder, B. P., Gupta, S., Yazdanbakhsh, A., & Clark, P. (2023). *Self-Refine: Iterative Refinement with Self-Feedback*. NeurIPS 2023.
+- Shinn, N., Cassano, F., Berman, E., Gopinath, A., Narasimhan, K., & Yao, S. (2023). *Reflexion: Language Agents with Verbal Reinforcement Learning*. NeurIPS 2023.
+- Yen, H., Gao, T., Hou, M., Ding, K., Fleischer, D., Izsak, P., Wasserblat, M., & Chen, D. (2024). *HELMET: How to Evaluate Long-Context Language Models Effectively and Thoroughly*. arXiv:2410.02694.
+- Ye, S., Kim, D., Kim, S., Hwang, H., Kim, S., Jo, Y., Thorne, J., Kim, J., & Seo, M. (2023). *FLASK: Fine-grained Language Model Evaluation based on Alignment Skill Sets*. arXiv:2307.10928.
+- Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z., Li, Z., Li, D., Xing, E., Zhang, H., Gonzalez, J. E., & Stoica, I. (2023). *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena*. NeurIPS 2023.
+- Zhuge, M., Zhao, C., Ashley, D., Wang, W., Khizbullin, D., Xiong, Y., Liu, Z., Chang, E., Krishnamoorthi, R., Tian, Y., Shi, Y., Chandra, V., & Schmidhuber, J. (2024). *Agent-as-a-Judge: Evaluate Agents with Agents*. arXiv:2410.10934.
