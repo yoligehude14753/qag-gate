@@ -1,7 +1,13 @@
 # QAG-Gate: Phase-Aware Binary Evaluation for Long-Running Coding Agents
 
-> Draft v1.3 · 2026-05-12  
-> Target: arXiv technical report; EMNLP 2026 System Demonstrations submission  
+**Yuli Gao**  
+*Independent Researcher*
+
+**Code**: <https://github.com/yoligehude14753/qag-gate> (Apache 2.0)  
+**Companion paper**: SlopeNav — <https://github.com/yoligehude14753/slopenav>
+
+> Draft v1.4 · 2026-05-13  
+> Target: arXiv technical report (cs.CL, cs.LG); EMNLP 2026 System Demonstrations  
 > Length target: 8,000–10,000 words (camera ready)
 
 ---
