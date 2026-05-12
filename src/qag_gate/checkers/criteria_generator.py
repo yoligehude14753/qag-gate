@@ -14,7 +14,9 @@ from loguru import logger
 from qag_gate.domain.models import EvalDepth, EvalPhase, EvalQuestion
 from qag_gate.domain.ports import LLMClient, LLMError
 
-_GEN_SYSTEM = "You generate binary evaluation questions for AI outputs. Output only JSON."
+_GEN_SYSTEM = (
+    "You generate binary evaluation questions for AI outputs. Output only JSON."
+)
 
 _GEN_PROMPT = (
     "Based on the following task description, generate 3-5 binary (Yes/No) evaluation questions "

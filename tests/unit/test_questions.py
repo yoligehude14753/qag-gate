@@ -1,12 +1,15 @@
 """单元测试 — detect_output_type + output-type 问题覆盖。"""
 
-import pytest
-
-from qag_gate.checkers.questions import BASELINE_QUESTIONS, CODE_FILE_OVERRIDE_QUESTIONS, detect_output_type
+from qag_gate.checkers.questions import (
+    BASELINE_QUESTIONS,
+    CODE_FILE_OVERRIDE_QUESTIONS,
+    detect_output_type,
+)
 from qag_gate.domain.models import EvalQuestion
 
 
 # ── detect_output_type ────────────────────────────────────────────────────────
+
 
 def test_default_text_type():
     assert detect_output_type([], "普通文本内容，没有代码块") == "text"
@@ -18,7 +21,9 @@ def test_pptx_file_detected():
 
 
 def test_docx_file_detected():
-    assert detect_output_type([{"file_url": "http://x.com/doc.docx"}], "") == "file:docx"
+    assert (
+        detect_output_type([{"file_url": "http://x.com/doc.docx"}], "") == "file:docx"
+    )
     assert detect_output_type([{"filename": "proposal.doc"}], "") == "file:docx"
 
 
@@ -59,6 +64,7 @@ def test_non_dict_tool_result_skipped():
 
 
 # ── output-type 问题矩阵 ───────────────────────────────────────────────────────
+
 
 def test_baseline_questions_exist():
     assert len(BASELINE_QUESTIONS) >= 3

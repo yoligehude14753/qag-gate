@@ -6,19 +6,26 @@ from qag_gate.checkers.score_aggregator import aggregate_scores
 from qag_gate.domain.models import Verdict
 
 
-def _v(category: str, score: float, weight: float = 1.0, is_positive: bool = None) -> Verdict:
+def _v(
+    category: str, score: float, weight: float = 1.0, is_positive: bool = None
+) -> Verdict:
     if is_positive is None:
         is_positive = score >= 0.5
     return Verdict(
-        question="test?", category=category,
-        answer=score >= 0.5, is_positive=is_positive,
-        score_value=score, weight=weight,
+        question="test?",
+        category=category,
+        answer=score >= 0.5,
+        is_positive=is_positive,
+        score_value=score,
+        weight=weight,
     )
 
 
 def test_all_yes_returns_high_score():
     verdicts = [_v("intent_match", 1.0, 1.5), _v("deliverable", 1.0, 1.5)]
-    total, cats, failed = aggregate_scores(verdicts, {"intent_match": 1.5, "deliverable": 1.5})
+    total, cats, failed = aggregate_scores(
+        verdicts, {"intent_match": 1.5, "deliverable": 1.5}
+    )
     assert total == pytest.approx(1.0)
     assert failed == []
 

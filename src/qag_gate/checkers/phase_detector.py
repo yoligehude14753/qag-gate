@@ -20,11 +20,21 @@ from qag_gate.domain.models import EvalPhase
 _DELIVERING_STATES = frozenset({"reporting", "delivering", "done", "complete"})
 _PLANNING_STATES = frozenset({"planning", "thinking", "init"})
 
-_EXEC_TOOLS = frozenset({
-    "python_repl", "web_search", "web_fetch", "notte_browse",
-    "write_file", "read_file", "bash", "code_exec",
-    "pptx_generator", "docx_generator", "xlsx_generator",
-})
+_EXEC_TOOLS = frozenset(
+    {
+        "python_repl",
+        "web_search",
+        "web_fetch",
+        "notte_browse",
+        "write_file",
+        "read_file",
+        "bash",
+        "code_exec",
+        "pptx_generator",
+        "docx_generator",
+        "xlsx_generator",
+    }
+)
 
 
 def detect_phase(

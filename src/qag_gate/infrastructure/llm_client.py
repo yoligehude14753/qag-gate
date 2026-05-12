@@ -79,7 +79,8 @@ class OpenAIAdapter:
         timeout: float = 45.0,
     ) -> Dict[str, Any]:
         raw = await self.complete(
-            system, user,
+            system,
+            user,
             max_tokens=max_tokens,
             temperature=temperature,
             timeout=timeout,
@@ -100,7 +101,9 @@ class AnthropicAdapter:
         try:
             import anthropic
         except ImportError as e:
-            raise ImportError("请安装 anthropic: pip install 'qag-gate[anthropic]'") from e
+            raise ImportError(
+                "请安装 anthropic: pip install 'qag-gate[anthropic]'"
+            ) from e
 
         self._model = model
         self._client = anthropic.AsyncAnthropic(api_key=api_key, **kwargs)
@@ -138,7 +141,8 @@ class AnthropicAdapter:
         timeout: float = 45.0,
     ) -> Dict[str, Any]:
         raw = await self.complete(
-            system, user,
+            system,
+            user,
             max_tokens=max_tokens,
             temperature=temperature,
             timeout=timeout,
@@ -160,17 +164,23 @@ class FallbackChain:
             try:
                 return await adapter.complete(system, user, **kwargs)
             except LLMError as e:
-                logger.warning(f"[FallbackChain] adapter={type(adapter).__name__} 失败: {e}")
+                logger.warning(
+                    f"[FallbackChain] adapter={type(adapter).__name__} 失败: {e}"
+                )
                 last_err = e
         raise LLMError(f"所有 LLM adapter 均失败: {last_err}") from last_err
 
-    async def complete_json(self, system: str, user: str, **kwargs: Any) -> Dict[str, Any]:
+    async def complete_json(
+        self, system: str, user: str, **kwargs: Any
+    ) -> Dict[str, Any]:
         last_err: Optional[Exception] = None
         for adapter in self._adapters:
             try:
                 return await adapter.complete_json(system, user, **kwargs)
             except LLMError as e:
-                logger.warning(f"[FallbackChain] adapter={type(adapter).__name__} JSON 失败: {e}")
+                logger.warning(
+                    f"[FallbackChain] adapter={type(adapter).__name__} JSON 失败: {e}"
+                )
                 last_err = e
         raise LLMError(f"所有 LLM adapter 均失败: {last_err}") from last_err
 
@@ -186,7 +196,9 @@ class MockLLMClient:
         self.calls.append({"system": system, "user": user, **kwargs})
         return self._response
 
-    async def complete_json(self, system: str, user: str, **kwargs: Any) -> Dict[str, Any]:
+    async def complete_json(
+        self, system: str, user: str, **kwargs: Any
+    ) -> Dict[str, Any]:
         self.calls.append({"system": system, "user": user, **kwargs})
         return _parse_json_safe(self._response)
 

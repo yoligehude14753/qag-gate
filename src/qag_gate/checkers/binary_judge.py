@@ -30,9 +30,17 @@ _JUDGE_SYSTEM = (
 )
 
 _SCORE_MAP: Dict[str, float] = {
-    "yes": 1.0, "true": 1.0, "y": 1.0, "是": 1.0,
-    "partial": 0.5, "partially": 0.5, "部分": 0.5,
-    "no": 0.0, "false": 0.0, "n": 0.0, "否": 0.0,
+    "yes": 1.0,
+    "true": 1.0,
+    "y": 1.0,
+    "是": 1.0,
+    "partial": 0.5,
+    "partially": 0.5,
+    "部分": 0.5,
+    "no": 0.0,
+    "false": 0.0,
+    "n": 0.0,
+    "否": 0.0,
 }
 
 _MAX_CONTENT = 16_000
@@ -76,7 +84,9 @@ class BinaryJudge:
         )
 
         try:
-            raw = await self._llm.complete(_JUDGE_SYSTEM, user_prompt, max_tokens=1500, timeout=45.0)
+            raw = await self._llm.complete(
+                _JUDGE_SYSTEM, user_prompt, max_tokens=1500, timeout=45.0
+            )
             data = self._parse_json(raw)
             return self._parse_verdicts(data, questions)
         except LLMError as e:
@@ -142,20 +152,24 @@ class BinaryJudge:
                 score = 1.0 - score
             is_positive = score >= 0.5
 
-            verdicts.append(Verdict(
-                question=q.text,
-                category=q.category,
-                answer=answer_bool,
-                is_positive=is_positive,
-                score_value=score,
-                reason=reason,
-                section=q.section_target or "",
-                weight=q.weight,
-            ))
+            verdicts.append(
+                Verdict(
+                    question=q.text,
+                    category=q.category,
+                    answer=answer_bool,
+                    is_positive=is_positive,
+                    score_value=score,
+                    reason=reason,
+                    section=q.section_target or "",
+                    weight=q.weight,
+                )
+            )
         return verdicts
 
     @staticmethod
-    def _fallback_verdicts(questions: List[EvalQuestion], reason: str = "parser failed") -> List[Verdict]:
+    def _fallback_verdicts(
+        questions: List[EvalQuestion], reason: str = "parser failed"
+    ) -> List[Verdict]:
         return [
             Verdict(
                 question=q.text,

@@ -14,29 +14,31 @@ class EvalPhase(str, Enum):
 
 
 class EvalDepth(str, Enum):
-    FAST = "fast"       # 仅硬规则检查，无 LLM 调用
+    FAST = "fast"  # 仅硬规则检查，无 LLM 调用
     STANDARD = "standard"  # baseline + dynamic 问题，1 次 LLM 调用
-    DEEP = "deep"       # standard + claim 验证，2-4 次 LLM 调用
+    DEEP = "deep"  # standard + claim 验证，2-4 次 LLM 调用
 
 
 @dataclass
 class EvalQuestion:
     """单条二元评估问题。"""
+
     text: str
     category: str
     weight: float = 1.0
-    positive_answer: bool = True   # True 表示 Yes 为好
+    positive_answer: bool = True  # True 表示 Yes 为好
     section_target: Optional[str] = None
 
 
 @dataclass
 class Verdict:
     """单条问题的二元判决结果。"""
+
     question: str
     category: str
-    answer: bool               # 模型回答（Yes=True / No=False）
-    is_positive: bool          # 考虑 positive_answer 后是否为正面
-    score_value: float         # 0.0 / 0.5 / 1.0
+    answer: bool  # 模型回答（Yes=True / No=False）
+    is_positive: bool  # 考虑 positive_answer 后是否为正面
+    score_value: float  # 0.0 / 0.5 / 1.0
     reason: str = ""
     section: str = ""
     weight: float = 1.0
@@ -45,7 +47,8 @@ class Verdict:
 @dataclass
 class RedLineViolation:
     """单条红线违规。"""
-    type: str     # empty_response | deflection | tool_failure_apology | ...
+
+    type: str  # empty_response | deflection | tool_failure_apology | ...
     detail: str = ""
     severity: int = 1  # 1=soft 2=hard
 
@@ -53,15 +56,16 @@ class RedLineViolation:
 @dataclass
 class EvalResult:
     """QAGEvaluator 标准化输出。下游（SlopeNav 等）消费此结构。"""
-    score: float                              # [0, 1]
+
+    score: float  # [0, 1]
     verdicts: List[Verdict] = field(default_factory=list)
     failed_verdicts: List[Verdict] = field(default_factory=list)
     phase: EvalPhase = EvalPhase.EXECUTING
     depth: EvalDepth = EvalDepth.STANDARD
-    redline_violations: List[str] = field(default_factory=list)   # 违规类型列表
+    redline_violations: List[str] = field(default_factory=list)  # 违规类型列表
     hard_failures: List[Dict[str, Any]] = field(default_factory=list)
     category_scores: Dict[str, float] = field(default_factory=dict)
-    is_health_check: bool = False              # fast 模式健康检查结果
+    is_health_check: bool = False  # fast 模式健康检查结果
     metadata: Dict[str, Any] = field(default_factory=dict)
 
     @property

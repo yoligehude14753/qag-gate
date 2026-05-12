@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List
 
 
@@ -20,12 +20,18 @@ class RedLineResult:
 
 
 _DEFLECTION_PHRASES = [
-    "我无法直接", "我无法替你", "我无法为你",
-    "你可以自行运行", "你可以自己运行",
+    "我无法直接",
+    "我无法替你",
+    "我无法为你",
+    "你可以自行运行",
+    "你可以自己运行",
     "你可以在本机运行",
-    "你需要自行", "你需要自己",
+    "你需要自行",
+    "你需要自己",
     "当前在这个对话环境中我无法",
-    "你运行即可", "你跑即可", "你执行即可",
+    "你运行即可",
+    "你跑即可",
+    "你执行即可",
 ]
 
 _TOOL_FAILURE_APOLOGY_PHRASES = [
@@ -39,10 +45,17 @@ _TOOL_FAILURE_APOLOGY_PHRASES = [
     "以下是基于已获取信息的回答。如果结果不满意",
 ]
 
-_FETCH_TOOLS = frozenset({
-    "notte_browse", "web_crawler", "web_fetch", "web_search",
-    "playwright", "stock_data", "paper_search",
-})
+_FETCH_TOOLS = frozenset(
+    {
+        "notte_browse",
+        "web_crawler",
+        "web_fetch",
+        "web_search",
+        "playwright",
+        "stock_data",
+        "paper_search",
+    }
+)
 
 _DATA_ACQ_PATTERNS = ["爬取", "抓取", "采集", "直聘", "zhipin", "linkedin", "boss直聘"]
 
@@ -74,7 +87,11 @@ class RedLineChecker:
         # 3b. 多数工具调用失败（>50%）且回答过短
         tool_results = context.get("tool_results", [])
         if tool_results:
-            failed = [r for r in tool_results if isinstance(r, dict) and not r.get("success", True)]
+            failed = [
+                r
+                for r in tool_results
+                if isinstance(r, dict) and not r.get("success", True)
+            ]
             fail_rate = len(failed) / len(tool_results)
             if fail_rate > 0.5 and len(content.strip()) < 500:
                 violations.append("unhandled_tool_error")

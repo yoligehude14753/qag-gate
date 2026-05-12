@@ -32,7 +32,6 @@ from qag_gate.checkers.redline import RedLineChecker
 from qag_gate.checkers.score_aggregator import aggregate_scores
 from qag_gate.domain.models import (
     EvalDepth,
-    EvalPhase,
     EvalQuestion,
     EvalResult,
     Verdict,
@@ -133,7 +132,9 @@ class QAGEvaluator:
 
         # 4. fast 模式（仅健康检查，无 LLM）
         if depth == EvalDepth.FAST:
-            logger.info(f"[QAG-Gate] fast 模式: phase={phase}, redline={redline_result.violations}")
+            logger.info(
+                f"[QAG-Gate] fast 模式: phase={phase}, redline={redline_result.violations}"
+            )
             return EvalResult(
                 score=0.0,
                 phase=phase,
@@ -182,7 +183,9 @@ class QAGEvaluator:
             cat_weights[cat] = max(cat_weights.get(cat, 0.0), q.weight)
 
         wo = ctx.get("weight_overrides") or {}
-        total, cat_scores, failed = aggregate_scores(verdicts, cat_weights, weight_overrides=wo)
+        total, cat_scores, failed = aggregate_scores(
+            verdicts, cat_weights, weight_overrides=wo
+        )
 
         logger.info(
             f"[QAG-Gate] phase={phase.value} depth={depth.value} "
@@ -221,6 +224,7 @@ class QAGEvaluator:
             )
             import json
             import re
+
             m = re.search(r"\{.*\}", raw, re.DOTALL)
             if not m:
                 return []
@@ -236,22 +240,26 @@ class QAGEvaluator:
                 )
                 raw_v = await self._judge._llm.complete(
                     "You are a fact-checker. Output only JSON.",
-                    verify_prompt, max_tokens=150, timeout=15.0,
+                    verify_prompt,
+                    max_tokens=150,
+                    timeout=15.0,
                 )
                 m2 = re.search(r"\{.*\}", raw_v, re.DOTALL)
                 if not m2:
                     continue
                 d = json.loads(m2.group())
                 is_correct = bool(d.get("correct", False))
-                verdicts.append(Verdict(
-                    question=f"Is this claim correct: '{claim[:80]}'?",
-                    category="factual_accuracy",
-                    answer=is_correct,
-                    is_positive=is_correct,
-                    score_value=1.0 if is_correct else 0.0,
-                    reason=d.get("reason", ""),
-                    weight=1.5,
-                ))
+                verdicts.append(
+                    Verdict(
+                        question=f"Is this claim correct: '{claim[:80]}'?",
+                        category="factual_accuracy",
+                        answer=is_correct,
+                        is_positive=is_correct,
+                        score_value=1.0 if is_correct else 0.0,
+                        reason=d.get("reason", ""),
+                        weight=1.5,
+                    )
+                )
             return verdicts
         except Exception as e:
             logger.debug(f"[QAG-Gate] claim 验证跳过: {e}")

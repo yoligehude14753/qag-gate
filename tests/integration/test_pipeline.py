@@ -5,10 +5,8 @@ expected results when all components work together, using a
 controllable mock LLM that returns realistic-format responses.
 """
 
-import asyncio
 import json
 import pytest
-from unittest.mock import AsyncMock, patch
 
 from qag_gate import QAGEvaluator, EvalResult
 from qag_gate.domain.models import EvalPhase, EvalDepth
@@ -18,17 +16,24 @@ from qag_gate.infrastructure import MockLLMClient
 def make_mock(all_yes: bool = True) -> MockLLMClient:
     """Create a MockLLMClient with realistic verdict responses."""
     verdict = "Yes" if all_yes else "No"
-    response = json.dumps({
-        "answers": [
-            {"question_id": f"q{i}", "verdict": verdict,
-             "answer": verdict, "reasoning": f"Evaluation result: {verdict}"}
-            for i in range(10)
-        ]
-    })
+    response = json.dumps(
+        {
+            "answers": [
+                {
+                    "question_id": f"q{i}",
+                    "verdict": verdict,
+                    "answer": verdict,
+                    "reasoning": f"Evaluation result: {verdict}",
+                }
+                for i in range(10)
+            ]
+        }
+    )
     return MockLLMClient(response=response)
 
 
 # ── Pipeline integration tests ─────────────────────────────────────────────
+
 
 class TestQAGPipelineIntegration:
     """Full pipeline integration tests."""
@@ -53,11 +58,16 @@ High-value segment (>$10k) grew 35% while standard segment declined 5%.
 3. **Improve standard retention**: Implement success playbook for <$10k accounts to reduce churn 15%
 
 *Data source: Salesforce Q1 2026 report*""",
-            context={"iteration": 5, "tools_used": ["search"]}  # force EXECUTING phase → STANDARD
+            context={
+                "iteration": 5,
+                "tools_used": ["search"],
+            },  # force EXECUTING phase → STANDARD
         )
 
         assert isinstance(result, EvalResult)
-        assert result.score >= 0.5, f"Expected high score for all-yes verdicts, got {result.score}"
+        assert result.score >= 0.5, (
+            f"Expected high score for all-yes verdicts, got {result.score}"
+        )
         assert len(result.verdicts) > 0
 
     @pytest.mark.asyncio
@@ -69,7 +79,7 @@ High-value segment (>$10k) grew 35% while standard segment declined 5%.
         result = await evaluator.evaluate(
             task="Write a Python function to sort a list",
             content="",
-            context={"iteration": 5}
+            context={"iteration": 5},
         )
 
         assert result.score == 0.0
@@ -89,13 +99,15 @@ High-value segment (>$10k) grew 35% while standard segment declined 5%.
                 "我无法替你完成这项工作，你需要自己做研究。"
                 "你可以在本机运行相关工具获取所需信息。"
             ),
-            context={"iteration": 5}
+            context={"iteration": 5},
         )
 
-        assert "deflection" in result.redline_violations, \
+        assert "deflection" in result.redline_violations, (
             f"Expected deflection violation, got: {result.redline_violations}"
-        assert result.score == 0.0, \
+        )
+        assert result.score == 0.0, (
             f"RedLine hard gate must zero the score, got: {result.score}"
+        )
 
     @pytest.mark.asyncio
     async def test_phase_detection_planning(self):
@@ -106,12 +118,16 @@ High-value segment (>$10k) grew 35% while standard segment declined 5%.
         result = await evaluator.evaluate(
             task="Build a data pipeline for ETL",
             content="My approach will be:\n1. Set up ingestion layer\n2. Transform data\n3. Load to warehouse\nI'll start by analyzing the data sources.",
-            context={"iteration": 4}  # iteration>2 so PLANNING won't force FAST mode
+            context={"iteration": 4},  # iteration>2 so PLANNING won't force FAST mode
         )
 
         assert isinstance(result, EvalResult)
         # Phase is detected, result is valid
-        assert result.phase in (EvalPhase.PLANNING, EvalPhase.EXECUTING, EvalPhase.DELIVERING)
+        assert result.phase in (
+            EvalPhase.PLANNING,
+            EvalPhase.EXECUTING,
+            EvalPhase.DELIVERING,
+        )
 
     @pytest.mark.asyncio
     async def test_code_output_gets_code_specific_questions(self):
@@ -121,11 +137,18 @@ High-value segment (>$10k) grew 35% while standard segment declined 5%.
         class TrackingMock:
             async def complete(self, system: str, user: str, **kwargs) -> str:
                 questions_asked.append(system + " " + user)
-                return json.dumps({
-                    "answers": [
-                        {"question_id": "q0", "verdict": "Yes", "answer": "Yes", "reasoning": "ok"},
-                    ]
-                })
+                return json.dumps(
+                    {
+                        "answers": [
+                            {
+                                "question_id": "q0",
+                                "verdict": "Yes",
+                                "answer": "Yes",
+                                "reasoning": "ok",
+                            },
+                        ]
+                    }
+                )
 
         evaluator = QAGEvaluator(llm_client=TrackingMock())
 
@@ -145,7 +168,10 @@ def fibonacci(n: int) -> int:
 assert fibonacci(10) == 55
 print("✓ Tests passed")
 ```""",
-            context={"iteration": 5, "tools_used": ["code_exec"]}  # force STANDARD/DEEP mode
+            context={
+                "iteration": 5,
+                "tools_used": ["code_exec"],
+            },  # force STANDARD/DEEP mode
         )
 
         assert isinstance(result, EvalResult)
@@ -155,6 +181,7 @@ print("✓ Tests passed")
     @pytest.mark.asyncio
     async def test_llm_failure_degrades_gracefully(self):
         """When LLM fails, evaluator should return a safe fallback result."""
+
         class FailingLLM:
             async def complete(self, system: str, user: str, **kwargs) -> str:
                 raise ConnectionError("API timeout")
@@ -165,7 +192,7 @@ print("✓ Tests passed")
         result = await evaluator.evaluate(
             task="Write a report",
             content="Here is my detailed report with analysis and recommendations for improving business performance across all key metrics.",
-            context={"iteration": 5, "tools_used": ["analysis"]}
+            context={"iteration": 5, "tools_used": ["analysis"]},
         )
 
         assert isinstance(result, EvalResult)
@@ -180,15 +207,15 @@ print("✓ Tests passed")
         result = await evaluator.evaluate(
             task="Some task",
             content="Some content that is long enough to pass basic checks and shows comprehensive work and analysis with actionable recommendations.",
-            context={"iteration": 5, "tools_used": ["search"]}
+            context={"iteration": 5, "tools_used": ["search"]},
         )
 
         # Required fields
-        assert hasattr(result, 'score')
-        assert hasattr(result, 'phase')
-        assert hasattr(result, 'depth')
-        assert hasattr(result, 'verdicts')
-        assert hasattr(result, 'redline_violations')
+        assert hasattr(result, "score")
+        assert hasattr(result, "phase")
+        assert hasattr(result, "depth")
+        assert hasattr(result, "verdicts")
+        assert hasattr(result, "redline_violations")
 
         # Type checks
         assert isinstance(result.score, float)
@@ -202,6 +229,7 @@ print("✓ Tests passed")
 
 
 # ── Deep mode / claim verification ────────────────────────────────────────
+
 
 class TestDeepMode:
     """DELIVERING phase triggers DEEP mode including claim verification."""
@@ -223,7 +251,11 @@ class TestDeepMode:
                 "2. Invest in R&D for product line extension.\n"
                 "3. Build strategic partnerships with regional distributors."
             ),
-            context={"iteration": 4, "agent_state": "delivering", "tools_used": ["search"]},
+            context={
+                "iteration": 4,
+                "agent_state": "delivering",
+                "tools_used": ["search"],
+            },
         )
         assert result.depth == EvalDepth.DEEP
         assert result.phase == EvalPhase.DELIVERING
@@ -232,7 +264,6 @@ class TestDeepMode:
     @pytest.mark.asyncio
     async def test_claim_verification_fails_gracefully(self):
         """_verify_claims exception is caught and returns empty verdicts."""
-        from qag_gate.domain.ports import LLMClient
 
         class FailingLLM:
             call_count = 0
@@ -251,13 +282,18 @@ class TestDeepMode:
                 "# Report\n\nThe market size is $500B. Growth rate is 15% annually. "
                 "Three key players dominate: A with 28%, B with 22%, C with 15%."
             ),
-            context={"iteration": 4, "agent_state": "delivering", "tools_used": ["search"]},
+            context={
+                "iteration": 4,
+                "agent_state": "delivering",
+                "tools_used": ["search"],
+            },
         )
         assert isinstance(result, EvalResult)
         assert 0.0 <= result.score <= 1.0
 
 
 # ── Score ordering tests ───────────────────────────────────────────────────
+
 
 class TestScoreOrdering:
     """Tests that score ordering makes intuitive sense."""
@@ -278,5 +314,6 @@ class TestScoreOrdering:
         result_high = await eval_high.evaluate(task=task, content=content, context=ctx)
         result_low = await eval_low.evaluate(task=task, content=content, context=ctx)
 
-        assert result_high.score > result_low.score, \
+        assert result_high.score > result_low.score, (
             f"High score ({result_high.score}) should exceed low score ({result_low.score})"
+        )

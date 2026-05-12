@@ -12,10 +12,14 @@ from qag_gate.infrastructure import MockLLMClient
 
 # ── Fixtures ─────────────────────────────────────────────────────────────
 
+
 def _make_judge_response(n_questions: int = 6, all_yes: bool = True) -> str:
     answer = "yes" if all_yes else "no"
-    answers = [{"q": i + 1, "answer": answer, "reason": "test"} for i in range(n_questions)]
+    answers = [
+        {"q": i + 1, "answer": answer, "reason": "test"} for i in range(n_questions)
+    ]
     import json
+
     return json.dumps({"answers": answers})
 
 
@@ -41,6 +45,7 @@ def mock_llm_all_yes():
 
         async def complete_json(self, system, user, **kwargs):
             import json
+
             return json.loads(await self.complete(system, user, **kwargs))
 
     return SequentialMock()
@@ -52,6 +57,7 @@ def evaluator_yes(mock_llm_all_yes):
 
 
 # ── 主路径 (Happy Path) ───────────────────────────────────────────────────
+
 
 @pytest.mark.asyncio
 async def test_happy_path_returns_eval_result(evaluator_yes):
@@ -122,6 +128,7 @@ async def test_happy_path_delivering_forces_deep(evaluator_yes):
 
 
 # ── 失败路径 (Sad Path) ───────────────────────────────────────────────────
+
 
 @pytest.mark.asyncio
 async def test_empty_content_returns_redline():
@@ -208,6 +215,7 @@ async def test_deflection_detected_in_content():
 
 # ── 边界场景 ──────────────────────────────────────────────────────────────
 
+
 @pytest.mark.asyncio
 async def test_planning_phase_early_returns_fast(evaluator_yes):
     """planning 阶段 + iteration <= 2 → depth=fast，无 LLM 调用。"""
@@ -245,7 +253,9 @@ async def test_code_output_removes_factual_accuracy_questions(evaluator_yes):
     )
 
     categories = {v.category for v in result.verdicts}
-    assert "factual_accuracy" not in categories, "code 类输出不应有 factual_accuracy 问题"
+    assert "factual_accuracy" not in categories, (
+        "code 类输出不应有 factual_accuracy 问题"
+    )
     assert "code_completeness" in categories or "data_quality" in categories
 
 

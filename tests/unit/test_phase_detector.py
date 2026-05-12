@@ -1,7 +1,5 @@
 """单元测试 — PhaseDetector 纯函数。"""
 
-import pytest
-
 from qag_gate.checkers.phase_detector import detect_phase
 from qag_gate.domain.models import EvalPhase
 
@@ -18,7 +16,9 @@ def test_planning_state_early_returns_planning():
 
 
 def test_executing_with_tools_returns_executing():
-    assert detect_phase(2, None, ["python_repl", "web_search"], 5) == EvalPhase.EXECUTING
+    assert (
+        detect_phase(2, None, ["python_repl", "web_search"], 5) == EvalPhase.EXECUTING
+    )
 
 
 def test_delivering_overrides_all():

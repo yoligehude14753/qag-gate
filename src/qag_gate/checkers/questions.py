@@ -16,30 +16,36 @@ from qag_gate.domain.models import EvalQuestion
 BASELINE_QUESTIONS: List[EvalQuestion] = [
     EvalQuestion(
         "Does the output directly address what the user asked for?",
-        category="intent_match", weight=1.5,
+        category="intent_match",
+        weight=1.5,
     ),
     EvalQuestion(
         "Does the output contain a concrete, usable deliverable "
         "(text answer, file, code, data, etc.) rather than only describing what could be done?",
-        category="deliverable", weight=1.5,
+        category="deliverable",
+        weight=1.5,
     ),
     EvalQuestion(
         "Is the output free of obvious errors, broken content, or incomplete artifacts?",
-        category="quality_baseline", weight=1.0,
+        category="quality_baseline",
+        weight=1.0,
     ),
     EvalQuestion(
         "Can the user directly use this output without significant additional work?",
-        category="actionability", weight=1.0,
+        category="actionability",
+        weight=1.0,
     ),
     EvalQuestion(
         "Are all dates, time periods, and temporal references in the output consistent with "
         "the real current date (not based on stale training data)?",
-        category="temporal_reality", weight=1.5,
+        category="temporal_reality",
+        weight=1.5,
     ),
     EvalQuestion(
         "Are all numbers, statistics, and data points in the output physically plausible "
         "and consistent with real-world constraints?",
-        category="physical_consistency", weight=1.5,
+        category="physical_consistency",
+        weight=1.5,
     ),
 ]
 
@@ -57,15 +63,18 @@ BASELINE_WEIGHTS: Dict[str, float] = {
 STRUCTURAL_COMPLETENESS_QUESTIONS: List[EvalQuestion] = [
     EvalQuestion(
         "Are all generated charts/figures embedded in the output using image syntax?",
-        category="structural_completeness", weight=1.2,
+        category="structural_completeness",
+        weight=1.2,
     ),
     EvalQuestion(
         "Does the output include a references/bibliography section with real citations?",
-        category="structural_completeness", weight=1.0,
+        category="structural_completeness",
+        weight=1.0,
     ),
     EvalQuestion(
         "Does the output discuss and interpret data analysis results with specific numbers?",
-        category="structural_completeness", weight=1.2,
+        category="structural_completeness",
+        weight=1.2,
     ),
 ]
 
@@ -74,19 +83,22 @@ STRUCTURAL_COMPLETENESS_QUESTIONS: List[EvalQuestion] = [
 CODE_FILE_OVERRIDE_QUESTIONS: List[EvalQuestion] = [
     EvalQuestion(
         "Did the code/tool execute successfully and produce the expected output files?",
-        category="code_completeness", weight=1.5,
+        category="code_completeness",
+        weight=1.5,
     ),
     EvalQuestion(
         "Were non-empty data files or artifacts actually generated?",
-        category="data_quality", weight=1.0,
+        category="data_quality",
+        weight=1.0,
     ),
 ]
 
 # ── output_type 检测 ───────────────────────────────────────────────────
 
+
 def detect_output_type(tool_results: List[dict], content: str) -> str:
     """返回 text | code | file:pptx | file:docx | file:xlsx | file:image | file:other"""
-    for r in (tool_results or []):
+    for r in tool_results or []:
         if not isinstance(r, dict):
             continue
         # 检查是否产出了特定文件类型
@@ -108,12 +120,14 @@ def detect_output_type(tool_results: List[dict], content: str) -> str:
         # 检查 output 里的文件路径
         output = str(r.get("output", ""))
         import re
-        if re.search(r'/files/[\w\-./]+\.\w+', output):
+
+        if re.search(r"/files/[\w\-./]+\.\w+", output):
             return "file:other"
 
     # 检查 content 里是否有代码块（>= 30 字符即算）
     import re
-    if re.search(r'```[\w]*\n[\s\S]{30,}?```', content):
+
+    if re.search(r"```[\w]*\n[\s\S]{30,}?```", content):
         return "code"
 
     return "text"

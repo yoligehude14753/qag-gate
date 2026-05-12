@@ -4,10 +4,8 @@
 """
 
 import ast
-import importlib
 from pathlib import Path
 
-import pytest
 
 SRC_ROOT = Path(__file__).parent.parent.parent / "src" / "qag_gate"
 
@@ -33,6 +31,7 @@ def _get_all_py_files(directory: Path) -> list[Path]:
 
 # ── FF-01: domain 层不依赖 infrastructure ────────────────────────────────────
 
+
 def test_ff01_domain_does_not_import_infrastructure():
     """domain 层禁止导入 infrastructure 或 openai/anthropic。"""
     forbidden = {"openai", "anthropic", "httpx", "qag_gate.infrastructure"}
@@ -49,6 +48,7 @@ def test_ff01_domain_does_not_import_infrastructure():
 
 # ── FF-02: domain 层不依赖 application ──────────────────────────────────────
 
+
 def test_ff02_domain_does_not_import_application():
     """domain 层禁止导入 application 层。"""
     domain_files = _get_all_py_files(SRC_ROOT / "domain")
@@ -61,6 +61,7 @@ def test_ff02_domain_does_not_import_application():
 
 
 # ── FF-03: checkers 层不依赖 infrastructure ──────────────────────────────────
+
 
 def test_ff03_checkers_do_not_import_infra_directly():
     """checkers 层通过 LLMClient protocol 调用 LLM，禁止直接 import openai/anthropic。"""
@@ -78,6 +79,7 @@ def test_ff03_checkers_do_not_import_infra_directly():
 
 # ── FF-04: 公共接口只通过 __init__.py 暴露 ────────────────────────────────────
 
+
 def test_ff04_public_api_defined_in_init():
     """__init__.py 必须包含 QAGEvaluator 和 EvalResult 的导出。"""
     init_file = SRC_ROOT / "__init__.py"
@@ -89,6 +91,7 @@ def test_ff04_public_api_defined_in_init():
 
 # ── FF-05: 每个模块有 __init__.py ────────────────────────────────────────────
 
+
 def test_ff05_all_packages_have_init():
     """每个子包都必须有 __init__.py。"""
     for subdir in ["domain", "application", "infrastructure", "checkers"]:
@@ -97,6 +100,7 @@ def test_ff05_all_packages_have_init():
 
 
 # ── FF-06: MockLLMClient 实现 LLMClient protocol ─────────────────────────────
+
 
 def test_ff06_mock_implements_llm_protocol():
     """MockLLMClient 必须是 LLMClient protocol 的实例。"""

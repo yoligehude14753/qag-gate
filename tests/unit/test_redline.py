@@ -12,14 +12,19 @@ def checker():
 
 # ── 通过（无违规）─────────────────────────────────────────────────────────
 
+
 def test_normal_content_passes(checker):
-    content = "## 分析结果\n\n经过详细研究，我发现以下关键数据点：\n1. 市场规模 500 亿\n2. 增速 15%\n3. 主要竞品 3 家" * 5
+    content = (
+        "## 分析结果\n\n经过详细研究，我发现以下关键数据点：\n1. 市场规模 500 亿\n2. 增速 15%\n3. 主要竞品 3 家"
+        * 5
+    )
     result = checker.check(content, {})
     assert result.passed
     assert result.violations == []
 
 
 # ── 空回答 ─────────────────────────────────────────────────────────────────
+
 
 def test_empty_content_fails(checker):
     result = checker.check("", {})
@@ -41,6 +46,7 @@ def test_very_short_content_fails(checker):
 
 # ── 推脱检测 ────────────────────────────────────────────────────────────────
 
+
 def test_deflection_requires_3_phrases(checker):
     """少于 3 条推脱语言不触发（避免误报）。"""
     content = "你可以自行运行这段代码。另外，我建议你尝试不同的方法。" * 20
@@ -61,6 +67,7 @@ def test_deflection_triggers_with_3_phrases(checker):
 
 # ── 工具失败道歉 ──────────────────────────────────────────────────────────────
 
+
 def test_tool_failure_apology_triggers(checker):
     content = (
         "多个工具调用失败，我无法获取完整数据。以下是基于已获取信息的回答。如果结果不满意，请调整任务。"
@@ -70,6 +77,7 @@ def test_tool_failure_apology_triggers(checker):
 
 
 # ── 工具执行未处理 ──────────────────────────────────────────────────────────
+
 
 def test_unhandled_tool_error_triggers(checker):
     """>50% 工具失败 + 回答过短 → 触发。"""
@@ -99,6 +107,7 @@ def test_no_tool_error_when_short_content_but_tools_ok(checker):
 
 # ── 内容重复 ────────────────────────────────────────────────────────────────
 
+
 def test_content_duplication_triggers(checker):
     # 段落须超过 30 字符（检查阈值）才参与重复检测
     para = "这是一段重复的内容，用于测试重复检测功能是否正常工作，该段落足够长以触发检测器。"
@@ -109,17 +118,20 @@ def test_content_duplication_triggers(checker):
 
 
 def test_normal_content_no_duplication(checker):
-    content = "\n".join([
-        "第一段：市场规模分析显示总体规模达 500 亿元。",
-        "第二段：增长率方面，同比增长 15%，高于行业平均。",
-        "第三段：竞争格局中，三家头部企业占据 60% 市场份额。",
-        "第四段：用户画像以 25-35 岁年轻专业人士为主。",
-    ])
+    content = "\n".join(
+        [
+            "第一段：市场规模分析显示总体规模达 500 亿元。",
+            "第二段：增长率方面，同比增长 15%，高于行业平均。",
+            "第三段：竞争格局中，三家头部企业占据 60% 市场份额。",
+            "第四段：用户画像以 25-35 岁年轻专业人士为主。",
+        ]
+    )
     result = checker.check(content, {})
     assert "content_duplication" not in result.violations
 
 
 # ── 处置动作 ──────────────────────────────────────────────────────────────────
+
 
 def test_dedup_action_for_duplication_only(checker):
     para = "这是重复段落内容测试，包含足够字符以触发检测。"
@@ -134,15 +146,14 @@ def test_honest_fail_after_repeated_systemic_errors(checker):
     content = "多个工具调用失败，我无法获取数据。" * 3
     context = {
         "retry_count": 3,
-        "tool_results": [
-            {"success": False}, {"success": False}, {"success": False}
-        ],
+        "tool_results": [{"success": False}, {"success": False}, {"success": False}],
     }
     result = checker.check(content, context)
     assert result.action in ("retry", "honest_fail")
 
 
 # ── improvement_hint ──────────────────────────────────────────────────────────
+
 
 def test_plan_incomplete_triggers(checker):
     """多步骤计划但缺乏完成标记 → plan_incomplete。"""
@@ -162,20 +173,26 @@ def test_plan_incomplete_not_triggered_with_completions(checker):
 def test_data_fabrication_triggers(checker):
     """任务要求爬取数据但未使用 fetch 工具 → data_fabrication。"""
     content = "根据爬取到的数据，价格为 100 元。" + "详细分析内容 " * 10
-    result = checker.check(content, {
-        "task": "爬取竞品价格数据",
-        "tools_used": ["python_repl"],  # 没有 fetch/crawl 工具
-    })
+    result = checker.check(
+        content,
+        {
+            "task": "爬取竞品价格数据",
+            "tools_used": ["python_repl"],  # 没有 fetch/crawl 工具
+        },
+    )
     assert "data_fabrication" in result.violations
 
 
 def test_data_fabrication_not_triggered_with_fetch_tool(checker):
     """使用了 fetch 工具 → 不触发 data_fabrication。"""
     content = "根据爬取到的数据，价格为 100 元。" + "详细分析内容 " * 10
-    result = checker.check(content, {
-        "task": "爬取竞品价格数据",
-        "tools_used": ["web_search", "python_repl"],
-    })
+    result = checker.check(
+        content,
+        {
+            "task": "爬取竞品价格数据",
+            "tools_used": ["web_search", "python_repl"],
+        },
+    )
     assert "data_fabrication" not in result.violations
 
 
@@ -189,7 +206,10 @@ def test_plan_incomplete_action_override_by_systemic(checker):
     }
     result = checker.check(content, context)
     # 可能触发 unhandled_tool_error 或 plan_incomplete，honest_fail 优先
-    if "unhandled_tool_error" in result.violations or "tool_failure_apology_delivery" in result.violations:
+    if (
+        "unhandled_tool_error" in result.violations
+        or "tool_failure_apology_delivery" in result.violations
+    ):
         assert result.action == "honest_fail"
 
 
