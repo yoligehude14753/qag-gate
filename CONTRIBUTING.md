@@ -1,6 +1,13 @@
 # Contributing to QAG-Gate
 
-Thank you for considering contributing to QAG-Gate! This document explains how to set up your development environment and contribute effectively.
+Thank you for considering contributing to QAG-Gate. This document explains how to set up your development environment and contribute effectively.
+
+## Quick links
+
+- Bug reports → [Issues](https://github.com/yoligehude14753/qag-gate/issues)
+- Feature requests → [Discussions](https://github.com/yoligehude14753/qag-gate/discussions) (or open an Issue with the `enhancement` label)
+- Security issues → see `SECURITY.md` (please do not file public issues for vulnerabilities)
+- Integrations with other agent frameworks → [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md)
 
 ## Development Setup
 
@@ -94,3 +101,18 @@ For bugs, please include:
 - Expected vs actual behavior
 
 For benchmark/evaluation questions, reference the relevant ADR in `docs/adr/`.
+
+## Good first issues
+
+Look for issues labelled [`good-first-issue`](https://github.com/yoligehude14753/qag-gate/labels/good-first-issue) and [`help-wanted`](https://github.com/yoligehude14753/qag-gate/labels/help-wanted). If you would like to pick something up that doesn't have an issue yet, the following are concrete, small-scoped starters — each fits in a single PR:
+
+- **New `OutputType` handler**: add a `mermaid` or `json_schema` branch alongside the existing code/file/tabular overrides in `checkers/questions.py`, plus a unit test.
+- **Extend `RedLineChecker` patterns**: add one new failure mode (e.g. "unanswered question rephrased", "URL-only reply") in `checkers/redline.py` with regression tests.
+- **More framework examples**: add an `examples/05_<framework>.py` that mirrors one section of `docs/INTEGRATIONS.md` end-to-end (LangGraph, CrewAI, Letta, Aider, …).
+- **Translate docs to Chinese**: start with `README.md` → `README.zh-CN.md`, or `docs/INTEGRATIONS.md` → `docs/INTEGRATIONS.zh-CN.md`.
+- **Phase classifier unit tests**: add cases for ambiguous transitions (planning ↔ executing) in `tests/unit/test_phase_detector.py`.
+- **Type hints on internal utils**: any module in `src/qag_gate/checkers/` flagged by `mypy --strict` is fair game; one module per PR.
+- **ENV overrides for `PHASE_*` thresholds**: read `QAG_PHASE_*` env vars in `checkers/phase_detector.py` so users can tune without forking.
+- **CI matrix expansion**: add Python 3.14 (or Windows / macOS) to `.github/workflows/ci.yml` and confirm green.
+
+Comment on the issue (or open one) before you start so we can avoid duplicate work.

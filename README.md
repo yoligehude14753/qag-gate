@@ -2,8 +2,12 @@
 
 **A phase-aware binary evaluator for long-running coding agents** — Claude Code, OpenAI Codex CLI, Cursor Composer, Aider, AutoGen / CrewAI / Letta loops. Drops in as the scoring step inside any Self-Refine, Reflexion, or custom agent loop and answers two questions on every iteration: *is this output good for the stage the agent is in*, and *is it good enough to ship*.
 
+[![PyPI](https://img.shields.io/pypi/v/qag-gate?cacheSeconds=300)](https://pypi.org/project/qag-gate/)
+[![Python](https://img.shields.io/pypi/pyversions/qag-gate?cacheSeconds=300)](https://pypi.org/project/qag-gate/)
+[![CI](https://github.com/yoligehude14753/qag-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/yoligehude14753/qag-gate/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/yoligehude14753/qag-gate/branch/main/graph/badge.svg)](https://codecov.io/gh/yoligehude14753/qag-gate)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://python.org)
+[![Paper](https://img.shields.io/badge/paper-arXiv-orange)](docs/PAPER.md)
 
 ## Why this exists
 
@@ -71,6 +75,8 @@ QAG-Gate is evaluator-agnostic on the scoring side and consumes plain text + opt
 - **AutoGen, CrewAI, Letta, LangGraph** node-level scoring
 - **Claude Code SDK / Codex CLI** wrappers (score each tool / file edit before continuing)
 - Custom Python `asyncio` agent loops
+
+Copy-paste-ready integration snippets for all of the above are in [`docs/INTEGRATIONS.md`](docs/INTEGRATIONS.md).
 
 ## Development
 
