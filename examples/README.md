@@ -96,6 +96,12 @@ phase=delivering -> detected_phase=delivering depth=deep     score=0.84  verdict
 final score (delivering phase): 0.84
 ```
 
+## More integrations
+
+For copy-paste-ready snippets that wire QAG-Gate into Claude Code SDK, Aider,
+AutoGen, CrewAI, Letta, LangGraph, and others — beyond the four scripts here —
+see [`docs/INTEGRATIONS.md`](../docs/INTEGRATIONS.md).
+
 ## Notes
 
 - Examples 1, 2, 4 perform real OpenAI calls — set `OPENAI_API_KEY` first.
