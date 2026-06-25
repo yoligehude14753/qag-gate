@@ -7,6 +7,7 @@
 [![CI](https://github.com/yoligehude14753/qag-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/yoligehude14753/qag-gate/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/yoligehude14753/qag-gate/branch/main/graph/badge.svg)](https://codecov.io/gh/yoligehude14753/qag-gate)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20838439.svg)](https://doi.org/10.5281/zenodo.20838439)
 [![Paper](https://img.shields.io/badge/paper-arXiv-orange)](docs/PAPER.md)
 
 ## Why this exists
@@ -55,7 +56,7 @@ Phase-aware depth selection:
 
 ## Paper
 
-QAG-Gate: Phase-Aware Binary Evaluation for AI Agent Outputs (arXiv preprint, 2026). See [`docs/PAPER.md`](docs/PAPER.md) for full draft.
+QAG-Gate: Phase-Aware Binary Evaluation for AI Agent Outputs (preprint draft, 2026). See [`docs/PAPER.md`](docs/PAPER.md) for the full draft and cite the archival Zenodo release DOI [`10.5281/zenodo.20838439`](https://doi.org/10.5281/zenodo.20838439).
 
 ## Validation
 
